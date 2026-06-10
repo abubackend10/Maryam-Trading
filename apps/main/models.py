@@ -138,8 +138,8 @@ class Advantage(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = '5) Преимущество'
-        verbose_name_plural = 'Преимущества'
+        verbose_name = 'Преимущество'
+        verbose_name_plural = '5) Преимущества'
         ordering = ['order']
 
 
