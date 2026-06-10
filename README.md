@@ -7,12 +7,15 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](https://djangoproject.com)
 [![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-F7DF1E?style=for-the-badge)](LICENSE)
 
 <br>
 
-Веб-платформа для компании **Maryam Trading** — продажа и подбор автомобилей из Южной Кореи.  
+Веб-платформа компании **Maryam Trading** — продажа и подбор автомобилей из Южной Кореи.  
 Каталог с фильтрами, детальные карточки авто, галерея, YouTube-видео обзоры и форма обратной связи.
+
+<br>
+
+> ⚠️ **Это закрытый коммерческий проект. Все права защищены.**
 
 </div>
 
@@ -70,6 +73,7 @@ MARYAM TRADING/
 │   └── components/
 ├── static/                # CSS, JS, изображения
 ├── media/                 # Загруженные файлы (dev)
+├── gunicorn.conf.py       # Конфигурация Gunicorn
 ├── requirements.txt
 ├── build.sh               # Скрипт деплоя на Render
 ├── manage.py
@@ -143,24 +147,8 @@ python manage.py runserver
 
 ---
 
-## 🤝 Вклад в проект
-
-1. Форкните репозиторий
-2. Создайте ветку (`git checkout -b feature/новая-функция`)
-3. Сделайте коммит (`git commit -m 'Добавить новую функцию'`)
-4. Запушьте (`git push origin feature/новая-функция`)
-5. Откройте Pull Request
-
----
-
-## 📄 Лицензия
-
-Этот проект распространяется под лицензией MIT — подробности в файле [LICENSE](LICENSE).
-
----
-
 <div align="center">
 
-**Сделано с ❤️ для Maryam Trading**
+**© 2025 Maryam Trading. Все права защищены.**
 
 </div>
