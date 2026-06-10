@@ -18,11 +18,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
     'apps.main'
 ]
+
+# Добавляем приложения Cloudinary только если настроены переменные окружения
+# Это предотвратит вмешательство cloudinary_storage в collectstatic в dev-режиме
+if os.getenv('CLOUDINARY_CLOUD_NAME'):
+    INSTALLED_APPS.append('cloudinary_storage')
+    INSTALLED_APPS.append('cloudinary')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,11 +89,9 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
@@ -96,8 +99,25 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-# WhiteNoise for static files
+# Совместимость: cloudinary-storage требует наличия этой переменной, 
+# даже если настроен словарь STORAGES
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Определяем, где Django будет искать статические файлы
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Конфигурация хранилищ для Django 5.1+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage" if os.getenv('CLOUDINARY_CLOUD_NAME') else "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Cloudinary for media files
 CLOUDINARY_STORAGE = {
@@ -105,9 +125,6 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
-
-if os.getenv('CLOUDINARY_CLOUD_NAME'):
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Production security settings
 if not DEBUG:
