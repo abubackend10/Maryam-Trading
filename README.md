@@ -138,7 +138,7 @@ python manage.py runserver
 
 1. Создайте **Web Service** и подключите репозиторий
 2. **Build Command:** `sh build.sh`
-3. **Start Command:** `gunicorn core.wsgi:application`
+3. **Start Command:** `gunicorn core.wsgi:application -c gunicorn.conf.py`
 4. Добавьте переменные окружения (`SECRET_KEY`, `DATABASE_URL`, Cloudinary ключи)
 
 ---
