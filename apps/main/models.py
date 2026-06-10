@@ -101,7 +101,7 @@ class Car(models.Model):
     @property
     def youtube_preview_url(self):
         embed_url = self.youtube_embed_url
-        if embed_url:
+        if embed_url and 'embed/' in embed_url:
             # Извлекаем ID из сформированной ссылки (последняя часть пути)
             video_id = embed_url.split('/')[-1].split('?')[0]
             return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
