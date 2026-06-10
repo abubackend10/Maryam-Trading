@@ -19,8 +19,8 @@ class Settings(models.Model):
         return self.title
     
     class Meta:
-        verbose_name = '01) Основная настройка'
-        verbose_name_plural = 'Основные настройки'
+        verbose_name = 'Основная настройка'
+        verbose_name_plural = '01)Основные настройки'
 
 
 class Statistic(models.Model):
@@ -32,8 +32,8 @@ class Statistic(models.Model):
         return self.label
 
     class Meta:
-        verbose_name = '02) Статистика'
-        verbose_name_plural = 'Статистики'
+        verbose_name = 'Статистика'
+        verbose_name_plural = '2) Статистики'
 
 
 class Car(models.Model):
@@ -111,8 +111,8 @@ class Car(models.Model):
         return f"{self.title} ({self.year})"
 
     class Meta:
-        verbose_name = '03) Автомобиль'
-        verbose_name_plural = 'Автомобили'
+        verbose_name = 'Автомобиль'
+        verbose_name_plural = '3) Автомобили'
         ordering = ['-created_at']
 
 
@@ -124,8 +124,8 @@ class CarImage(models.Model):
         return f"Фото для {self.car.title}"
 
     class Meta:
-        verbose_name = '04) Дополнительное фото'
-        verbose_name_plural = 'Дополнительные фото'
+        verbose_name = 'Дополнительное фото'
+        verbose_name_plural = '4) Дополнительные фото'
 
 
 class Advantage(models.Model):
@@ -138,7 +138,7 @@ class Advantage(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = '05) Преимущество'
+        verbose_name = '5) Преимущество'
         verbose_name_plural = 'Преимущества'
         ordering = ['order']
 
@@ -151,8 +151,8 @@ class About(models.Model):
         return "Информация 'О нас'"
 
     class Meta:
-        verbose_name = '06) О нас'
-        verbose_name_plural = 'О нас'
+        verbose_name = 'О нас'
+        verbose_name_plural = '6) О нас'
 
 
 class ContactMessage(models.Model):
@@ -167,6 +167,6 @@ class ContactMessage(models.Model):
         return f"Сообщение от {self.name} ({self.created_at.strftime('%d.%m.%Y %H:%M')})"
 
     class Meta:
-        verbose_name = '07) Сообщение с сайта'
-        verbose_name_plural = 'Сообщения с сайта'
+        verbose_name = 'Сообщения с сайта'
+        verbose_name_plural = '7) Сообщение с сайта'
         ordering = ['-created_at']
