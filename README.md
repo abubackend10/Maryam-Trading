@@ -1,57 +1,166 @@
-# ![Maryam Trading Logo](file:///C:/Users/Abubakr/.gemini/antigravity-ide/brain/6fb04760-a5e4-4453-8582-284b0503fff0/maryam_trading_logo_1781090165921.png)
+<div align="center">
 
-# Maryam Trading
+# 🚗 Maryam Trading
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+### Автомобили из Кореи — надёжно, быстро, выгодно
 
-## 📖 Overview
-A lightweight, maintainable Django‑based platform for managing trading data, visualising market trends and handling user accounts. Designed with clean UI, responsive layout, and easy extensibility.
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](https://djangoproject.com)
+[![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-F7DF1E?style=for-the-badge)](LICENSE)
 
-## ✨ Key Features
-- Secure user authentication & role‑based access
-- CRUD interface for trades, portfolios, and instruments
-- Interactive charts powered by Chart.js
-- Responsive design with dark‑mode support
-- Docker‑ready deployment
+<br>
 
-## 🛠️ Tech Stack
-- **Backend:** Python 3.10, Django 4.x, SQLite (default) / PostgreSQL
-- **Frontend:** HTML5, CSS3 (Tailwind‑like utilities), JavaScript (Chart.js)
-- **Styling:** Modern UI with gradients, glass‑morphism, subtle animations
-- **Dev Tools:** `venv`, `pip`, `Docker`, `Gunicorn`
+Веб-платформа для компании **Maryam Trading** — продажа и подбор автомобилей из Южной Кореи.  
+Каталог с фильтрами, детальные карточки авто, галерея, YouTube-видео обзоры и форма обратной связи.
 
-## 🚀 Installation
+</div>
+
+---
+
+## 📸 Возможности
+
+| Функция | Описание |
+|---------|----------|
+| 🏠 **Главная страница** | Hero-секция, популярные авто, преимущества компании, CTA-блок |
+| 🚘 **Каталог авто** | Все автомобили с ценами, пробегом, типом топлива и КПП |
+| 📋 **Карточка авто** | Полная информация: фото-галерея, YouTube-видео, характеристики, кнопка WhatsApp |
+| 📝 **Форма контактов** | Обратная связь с защитой от спама (honeypot + rate-limit) |
+| ℹ️ **О компании** | История и описание Maryam Trading |
+| ⚙️ **Админ-панель** | Управление авто, настройками сайта, статистикой и сообщениями |
+
+---
+
+## 🛠 Технологии
+
+```
+Backend          Django 5.1 · Python 3.10+
+База данных      SQLite (dev) / PostgreSQL (prod, через dj-database-url)
+Медиа-файлы      Cloudinary (продакшен) / локальное хранилище (разработка)
+Статика          WhiteNoise с Brotli-сжатием
+Деплой           Render (Web Service) · Gunicorn
+Фронтенд        HTML5 · CSS3 · Vanilla JS · Font Awesome
+Безопасность     HSTS · CSRF · Rate-limiting · Honeypot
+```
+
+---
+
+## 📁 Структура проекта
+
+```
+MARYAM TRADING/
+├── apps/
+│   └── main/              # Основное приложение
+│       ├── models.py      # Car, CarImage, Settings, Advantage, About, ContactMessage
+│       ├── views.py       # home, gallery, car_details, about, contact
+│       ├── admin.py       # Настройка админ-панели
+│       ├── urls.py        # Маршруты приложения
+│       └── context_processors.py
+├── core/                  # Конфигурация Django
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── templates/             # HTML-шаблоны
+│   ├── base.html
+│   ├── index.html
+│   ├── gallery.html
+│   ├── car-details.html
+│   ├── contact.html
+│   ├── about.html
+│   └── components/
+├── static/                # CSS, JS, изображения
+├── media/                 # Загруженные файлы (dev)
+├── requirements.txt
+├── build.sh               # Скрипт деплоя на Render
+├── manage.py
+└── .env                   # Переменные окружения (не в git)
+```
+
+---
+
+## 🚀 Установка и запуск
+
+### 1. Клонировать репозиторий
+
 ```bash
-# Clone the repo
-git clone https://github.com/your‑username/maryam‑trading.git
-cd maryam‑trading
+git clone https://github.com/abubackend10/Maryam-Trading.git
+cd Maryam-Trading
+```
 
-# Create virtual environment
+### 2. Создать виртуальное окружение
+
+```bash
 python -m venv venv
-venv\Scripts\activate   # on Windows
 
-# Install dependencies
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+```
+
+### 3. Установить зависимости
+
+```bash
 pip install -r requirements.txt
+```
 
-# Apply migrations
+### 4. Настроить переменные окружения
+
+Создайте файл `.env` в корне проекта:
+
+```env
+SECRET_KEY=your-secret-key
+DEBUG=True
+
+# Cloudinary (опционально, для медиа в облаке)
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+```
+
+### 5. Применить миграции и запустить
+
+```bash
 python manage.py migrate
-
-# Run the development server
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## 📦 Usage
-Visit `http://127.0.0.1:8000/` in your browser. Register a new account, then start adding trades, creating portfolios, and exploring the live charts.
+Откройте **http://127.0.0.1:8000/** в браузере.  
+Админ-панель: **http://127.0.0.1:8000/admin/**
 
-## 🐳 Docker (optional)
-```bash
-docker build -t maryam‑trading .
- docker run -p 8000:8000 maryam‑trading
-```
+---
 
-## 🤝 Contributing
-Contributions are welcome! Please fork the repo, create a feature branch, and submit a pull request. Follow the existing code style and run tests before pushing.
+## 🌐 Деплой на Render
 
-## 📄 License
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+Проект настроен для деплоя на [Render](https://render.com):
+
+1. Создайте **Web Service** и подключите репозиторий
+2. **Build Command:** `sh build.sh`
+3. **Start Command:** `gunicorn core.wsgi:application`
+4. Добавьте переменные окружения (`SECRET_KEY`, `DATABASE_URL`, Cloudinary ключи)
+
+---
+
+## 🤝 Вклад в проект
+
+1. Форкните репозиторий
+2. Создайте ветку (`git checkout -b feature/новая-функция`)
+3. Сделайте коммит (`git commit -m 'Добавить новую функцию'`)
+4. Запушьте (`git push origin feature/новая-функция`)
+5. Откройте Pull Request
+
+---
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT — подробности в файле [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+**Сделано с ❤️ для Maryam Trading**
+
+</div>
