@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_name %}error{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/_error.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="error-container">
+        <h1 class="error-code" data-text="403">403</h1>
+        <h2 class="error-title">Доступ запрещён</h2>
+        <p class="error-desc">К сожалению, у вас нет прав для просмотра этой страницы или выполнения данного действия.</p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary btn-lg"><i class="fa-solid fa-house"></i> На главную</a>
+            <a href="/contact" class="btn btn-outline btn-lg"><i class="fa-solid fa-headset"></i> Поддержка</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/error.js' %}"></script>
+{% endblock %}

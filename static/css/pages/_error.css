@@ -1,0 +1,123 @@
+/* --- Error Pages Styling --- */
+.error-section {
+    position: relative;
+    min-height: calc(100vh - 80px); /* Full height minus header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-md);
+    overflow: hidden;
+}
+
+/* Мягкое фоновое свечение */
+.error-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vw;
+    max-width: 600px;
+    max-height: 600px;
+    background: radial-gradient(circle, rgba(255, 51, 51, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.error-container {
+    position: relative;
+    z-index: 1;
+    max-width: 650px;
+    width: 100%;
+}
+
+.error-code {
+    font-size: clamp(6rem, 25vw, 14rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    transition: transform 0.1s ease-out; /* Для параллакса */
+    will-change: transform;
+}
+
+/* Тень текста для Webkit, так как drop-shadow на текст с background-clip работает плохо */
+.error-code::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: none;
+    -webkit-text-fill-color: rgba(220, 30, 30, 0.2);
+    filter: blur(15px);
+    pointer-events: none;
+}
+
+.error-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-light);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: -0.5px;
+}
+
+.error-desc {
+    font-size: clamp(1rem, 3vw, 1.15rem);
+    color: var(--color-gray);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.error-actions .btn {
+    min-width: 200px;
+    height: 54px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .error-section {
+        min-height: 70vh;
+    }
+    
+    .error-code {
+        /* Плавающая анимация для мобилок (где нет мышки) */
+        animation: floatError 6s ease-in-out infinite;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .error-actions .btn {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+@keyframes floatError {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+}

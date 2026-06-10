@@ -1,0 +1,25 @@
+<div class="car-card" data-car-id="{{ car_id }}">
+    <div class="car-card-image">
+        <img src="{{ image_url }}" alt="{{ brand }} {{ model }}" loading="lazy">
+        <span class="car-badge {% if condition == 'new' %}badge-new{% else %}badge-used{% endif %}">
+            {% if condition == 'new' %}Новый{% else %}С пробегом{% endif %}
+        </span>
+    </div>
+    <div class="car-card-body">
+        <h3 class="car-title">{{ brand }} {{ model }}</h3>
+        <p class="car-year">{{ year }} год</p>
+        <div class="car-specs">
+            <span><i class="fa-solid fa-gauge"></i> {{ mileage }}</span>
+            <span><i class="fa-solid fa-gas-pump"></i> {{ fuel }}</span>
+            <span><i class="fa-solid fa-cog"></i> {{ transmission }}</span>
+            <span><i class="fa-solid fa-palette"></i> {{ color }}</span>
+        </div>
+        <div class="car-price">{{ price }}$</div>
+        <div class="car-actions">
+            <a href="/car-details?id={{ car_id }}" class="btn btn-outline btn-sm">Подробнее</a>
+            <a href="https://wa.me/821012345678?text=Интересуюсь {{ brand }} {{ model }} {{ year }} года, цена {{ price }}$" class="btn btn-primary btn-sm" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Заказать
+            </a>
+        </div>
+    </div>
+</div>

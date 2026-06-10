@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_name %}home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-bg">
+        {% if settings.image %}<img src="{{ settings.image.url }}" alt="{{ settings.title }}" class="hero-bg-image"
+            style="width: 100%; height: 100%; object-fit: cover;">{% endif %}
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+        <h1 class="hero-title">{{ settings.title }}</h1>
+        <p class="hero-subtitle">{{ settings.subtitle }}</p>
+        <div class="hero-buttons">
+            <a href="/gallery" class="btn btn-primary btn-lg"><i class="fa-solid fa-car"></i> Смотреть авто</a>
+            <a href="/contact" class="btn btn-outline btn-lg"><i class="fa-solid fa-phone"></i> Связаться</a>
+        </div>
+        <div class="hero-stats">
+            {% for stat in stats %}
+            <div class="stat-item">
+                <span class="stat-number" data-count="{{ stat.value }}">0</span>
+                <span class="stat-label">{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="scroll-indicator"><span>Листайте вниз</span><i class="fa-solid fa-chevron-down"></i></div>
+</section>
+
+<section class="cars-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-fire"></i> Популярные предложения</h2>
+            <a href="/gallery" class="btn btn-text">Все авто <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="cars-grid" id="featuredCars">
+            {% for car in featured_cars %}
+            <div class="car-card {% if car.is_sold %}is-sold{% endif %}">
+                <div class="car-card-image">
+                    {% if car.image %}
+                    <img src="{{ car.image.url }}" alt="{{ car.title }}"
+                        style="width: 100%; height: 220px; object-fit: cover;">
+                    {% endif %}
+                    <span class="car-badge {% if car.status == 'new' %}badge-new{% else %}badge-used{% endif %}">
+                        {{ car.get_status_display }}
+                    </span>
+                    {% if car.is_sold %}
+                    <img src="{% static 'img/sold-stamp.png' %}" alt="Продано" class="sold-stamp">
+                    {% endif %}
+                </div>
+                <div class="car-card-body">
+                    <div class="car-card-header"
+                        style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 2px;">
+                        <h3 class="car-title" style="margin: 0;">{{ car.title }}</h3>
+                        <div class="car-price"
+                            style="margin: 0; font-size: 1.1rem; font-weight: bold; color: var(--primary-color); white-space: nowrap;">
+                            {{ car.formatted_price }}$</div>
+                    </div>
+                    <p class="car-year" style="margin: 0 0 10px 0; font-size: 0.9rem; opacity: 0.8;">{{ car.year }} год
+                    </p>
+                    <div class="car-specs">
+                        <span><i class="fa-solid fa-gauge"></i> {{ car.formatted_mileage }} км</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> {{ car.fuel_type }}</span>
+                        <span><i class="fa-solid fa-gears"></i> {{ car.transmission }}</span>
+                        <span><i class="fa-solid fa-palette"></i> {{ car.color }}</span>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+                    <div class="car-actions">
+                        {% if car.is_sold %}
+                        <button class="btn btn-secondary" disabled
+                            style="grid-column: 1 / -1; width: 100%; opacity: 0.8; cursor: not-allowed; background: #333; color: #888; border: 1px solid #444; height: 44px; font-weight: bold; letter-spacing: 1px; white-space: nowrap;">
+                            АВТОМОБИЛЬ ПРОДАН</button>
+                        {% else %}
+                        <a href="{% url 'car_details' car.id %}" class="btn btn-outline">Подробнее</a>
+                        <a href="https://wa.me/{{ settings.watsapp }}?text=Интересуюсь {{ car.title }}"
+                            class="btn btn-primary">Заказать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Красивая заглушка, если нет избранных авто -->
+            <div class="empty-featured"
+                style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.05); border-radius: 20px; border: 2px dashed rgba(0,0,0,0.1);">
+                <div style="font-size: 50px; color: #ccc; margin-bottom: 15px;">
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <h3 style="margin-bottom: 10px;">Новинки скоро появятся</h3>
+                <p style="color: #888;">Сейчас мы подбираем лучшие предложения для вас.</p>
+                <a href="{% url 'gallery' %}" class="btn btn-primary" style="margin-top: 15px;">Перейти в каталог</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="why-us">
+    <div class="container">
+        <h2 class="section-title text-center"><i class="fa-solid fa-crown"></i> Почему выбирают нас</h2>
+        <div class="features-grid">
+            {% for advantage in advantages %}
+            <div class="feature-card glass-card">
+                <div class="feature-icon"><i class="{{ advantage.icon }}"></i></div>
+                <h3>{{ advantage.title }}</h3>
+                <p>{{ advantage.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card glass-card">
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80" alt="CTA" class="cta-image"
+                loading="lazy">
+            <div class="cta-content">
+                <h2>Готовы найти свой автомобиль?</h2>
+                <p>Свяжитесь с нами сегодня и получите лучшие предложения из Кореи</p>
+                <a href="/contact" class="btn btn-primary btn-lg"><i class="fa-solid fa-paper-plane"></i> Связаться
+                    сейчас</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/_home.css' %}">
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/pages/home.js' %}"></script>{% endblock %}

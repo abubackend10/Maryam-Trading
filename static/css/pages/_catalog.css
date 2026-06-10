@@ -1,0 +1,390 @@
+/* --- Page Header --- */
+.page-header {
+    position: relative;
+    height: 45vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 80px;
+}
+
+.page-header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.page-header-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.6) 100%);
+}
+
+.page-header-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 900;
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+    color: rgba(255,255,255,0.6);
+    font-size: var(--font-size-lg);
+}
+
+/* --- Catalog Section --- */
+.catalog-section {
+    padding: var(--spacing-xl) 0 var(--spacing-2xl);
+    background: linear-gradient(180deg, var(--color-darker) 0%, var(--color-dark) 100%);
+}
+
+/* --- Filter Bar --- */
+.filter-bar {
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    background: rgba(20,20,20,0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+}
+
+.filter-toggle {
+    display: none;
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.05);
+    color: var(--color-light);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-toggle:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.filter-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.filter-item {
+    flex: 1;
+    min-width: 0;
+}
+
+.filter-item .form-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 40px 0 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    color: rgba(255,255,255,0.9);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(255,255,255,0.5)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+    line-height: 48px;
+}
+
+.filter-item .form-select:hover {
+    border-color: rgba(255,255,255,0.25);
+    background-color: rgba(255,255,255,0.08);
+}
+
+.filter-item .form-select:focus {
+    border-color: var(--color-primary);
+    background-color: rgba(255,51,51,0.05);
+    box-shadow: 0 0 0 3px rgba(255,51,51,0.1);
+    outline: none;
+}
+
+.filter-item .form-select option {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 12px;
+    font-size: var(--font-size-sm);
+}
+
+.filter-bar .btn-primary {
+    height: 48px;
+    padding: 0 28px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+/* --- Catalog Grid --- */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+/* --- Car Card --- */
+.car-card {
+    background: rgba(26,26,26,0.8);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all var(--transition-normal);
+    backdrop-filter: blur(10px);
+}
+
+.car-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,51,51,0.3);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,51,51,0.1);
+}
+
+.car-card-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #111;
+}
+
+.car-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.car-card:hover .car-card-image img {
+    transform: scale(1.06);
+}
+
+/* --- Badges --- */
+.car-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+}
+
+.badge-new {
+    background: rgba(220,30,30,0.92);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(220,30,30,0.3);
+}
+
+.badge-used {
+    background: rgba(60,60,60,0.85);
+    color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+
+/* --- Card Body --- */
+.car-card-body {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.car-title {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #fff;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+}
+
+.car-year {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+    font-weight: 500;
+}
+
+.car-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+    padding-bottom: clamp(0.75rem, 2vw, 1rem);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.car-specs span {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+}
+
+.car-specs span i {
+    color: rgba(255,51,51,0.7);
+    width: 14px;
+    text-align: center;
+    font-size: 0.7rem;
+}
+
+.car-price {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 900;
+    color: #ffd700;
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+    letter-spacing: -0.5px;
+}
+
+.car-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.car-actions .btn {
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+.car-actions .btn-outline {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+}
+
+.car-actions .btn-outline:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.06);
+}
+
+.car-actions .btn-primary {
+    background: linear-gradient(135deg, #e02525, #cc0000);
+}
+
+/* --- Empty State --- */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: clamp(3rem, 8vw, 5rem) 1rem;
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255,255,255,0.6);
+}
+
+.empty-state p {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.9rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        height: 35vh;
+        min-height: 220px;
+    }
+
+    .page-header-content {
+        padding: 0 20px;
+    }
+
+    .page-title {
+        font-size: 26px;
+        line-height: 1.3;
+        margin-bottom: 12px;
+    }
+
+    .page-title i {
+        display: none;
+    }
+
+    .filter-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .filter-row {
+        display: none;
+        flex-direction: column;
+        margin-top: var(--spacing-sm);
+    }
+    
+    .filter-row.active {
+        display: flex;
+    }
+    
+    .filter-item .form-select {
+        height: 44px;
+        line-height: 44px;
+    }
+    
+    .filter-bar .btn-primary {
+        height: 44px;
+        width: 100%;
+    }
+    
+    .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .catalog-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .car-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+}

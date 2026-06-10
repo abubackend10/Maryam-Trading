@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="{{ settings.description|default:'Maryam Trading - Продажа автомобилей из Кореи. Новые и бу авто с гарантией' }}">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>{{ settings.title|default:'Maryam Trading' }} | {{ car.title }}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/pages/_car-details.css">
+</head>
+
+<body data-page="car-details">
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                {% if settings.logo %}
+                <img src="{{ settings.logo.url }}" alt="{{ settings.title }}" class="logo-img"
+                    style="height: 40px; width: auto; object-fit: contain; flex-shrink: 0;">
+                {% else %}
+                <i class="fa-solid fa-car-side"></i>
+                {% endif %}
+                <span>{{ settings.title|default:'MARYAM Trading' }}</span>
+            </a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Главная</a></li>
+                <li><a href="/gallery" class="nav-link"><i class="fa-solid fa-car"></i> Автомобили</a></li>
+                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> О нас</a></li>
+                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="car-details-section">
+            <div class="container">
+                <a href="/gallery" class="back-link"><i class="fa-solid fa-arrow-left"></i> Назад в каталог</a>
+
+                <div class="car-details-grid">
+
+                    <div class="car-gallery">
+                        <div class="main-media-wrapper {% if car.is_sold %}is-sold{% endif %}"
+                            style="position: relative; width: 100%; aspect-ratio: 16/9; margin-bottom: 20px;">
+                            {% if car.image %}
+                            <img id="mainImage" src="{{ car.image.url }}" class="main-image"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+                            {% endif %}
+
+                            {% if car.is_sold %}
+                            <img src="{% static 'img/sold-stamp.png' %}" alt="Продано" class="sold-stamp">
+                            {% endif %}
+
+                            <div id="videoContainer" style="display: none; width: 100%; height: 100%;">
+                                <iframe id="videoPlayer" src="" frameborder="0" allow="autoplay; encrypted-media"
+                                    allowfullscreen style="width: 100%; height: 100%; border-radius: 12px;"></iframe>
+                            </div>
+                        </div>
+
+                        <div class="thumbnail-list"
+                            style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+
+                            {% if car.image %}
+                            <img src="{{ car.image.url }}" class="thumbnail active" data-type="image"
+                                data-full="{{ car.image.url }}"
+                                style="width: 80px; height: 60px; object-fit: cover; cursor: pointer; border-radius: 6px;">
+                            {% endif %}
+
+                            {% for item in car.images.all %}
+                            <img src="{{ item.image.url }}" class="thumbnail" data-type="image"
+                                data-full="{{ item.image.url }}"
+                                style="width: 80px; height: 60px; object-fit: cover; cursor: pointer; border-radius: 6px;">
+                            {% endfor %}
+
+                            {% if car.video_url %}
+                            <div class="thumbnail-video" data-type="video"
+                                data-video="{{ car.youtube_embed_url|default:car.video_url }}"
+                                style="position: relative; width: 80px; height: 60px; flex-shrink: 0; cursor: pointer; border-radius: 6px; overflow: hidden;">
+
+                                <img src="{{ car.youtube_preview_url|default:car.image.url }}"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+
+                                <div class="play-icon-overlay"
+                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; background: rgba(229, 9, 20, 0.9); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-solid fa-play" style="font-size: 12px;"></i>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <div class="car-info-header"
+                            style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                                    <h1 style="margin: 0;">{{ car.title }}</h1>
+                                    {% if car.status == 'new' %}
+                                    <span class="car-badge badge-new"
+                                        style="background-color: #ff2a2a; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">Новый</span>
+                                    {% else %}
+                                    <span class="car-badge badge-used"
+                                        style="background-color: #555; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">С
+                                        пробегом</span>
+                                    {% endif %}
+                                </div>
+                                <p class="car-year" style="margin: 0;">{{ car.year }} год</p>
+                            </div>
+                            <div class="car-price-large"
+                                style="margin: 0; font-size: 2rem; color: var(--primary-color); white-space: nowrap;">
+                                {{ car.formatted_price }}$</div>
+                        </div>
+
+                        <div class="car-specs-details">
+                            <div class="spec-item"><i class="fa-solid fa-gauge"></i><span>Пробег</span><strong>{{ car.formatted_mileage }} км</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-cog"></i><span>КПП</span><strong>{{ car.transmission }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-calendar"></i><span>Год</span><strong>{{ car.year }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i><span>Топливо</span><strong>{{ car.fuel_type }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-car-side"></i><span>Привод</span><strong>{{ car.drive|default:"-" }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-palette"></i><span>Цвет</span><strong>{{ car.color }}</strong></div>
+                        </div>
+
+                        <div class="car-actions-large">
+                            {% if car.is_sold %}
+                            <button class="btn btn-sold btn-lg" disabled
+                                style="grid-column: 1 / -1; background: #6c757d; color: white; border: none; opacity: 0.7; cursor: not-allowed; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;">
+                                <i class="fa-solid fa-circle-xmark"></i> Данный автомобиль продан
+                            </button>
+                            {% else %}
+                            <a href="https://wa.me/{{ settings.watsapp|default:'996770000000' }}?text=Интересуюсь%20{{ car.title }}"
+                                class="btn btn-whatsapp btn-lg" target="_blank">
+                                <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
+                            </a>
+                            <a href="https://t.me/{{ settings.telegram|default:'Abubakr_jr' }}"
+                                class="btn btn-telegram btn-lg" target="_blank">
+                                <i class="fa-brands fa-telegram"></i> Написать в Telegram
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="car-specs-full">
+                    <h2 style="margin-bottom: 20px;">Все характеристики</h2>
+                    <div class="specs-grid">
+                        <div><span>Название</span><strong>{{ car.title }}</strong></div>
+                        <div><span>Год</span><strong>{{ car.year }}</strong></div>
+                        <div><span>Пробег</span><strong>{{ car.formatted_mileage }} км</strong></div>
+                        <div><span>Двигатель</span><strong>{{ car.engine|default:"-" }}</strong></div>
+                        <div><span>КПП</span><strong>{{ car.transmission }}</strong></div>
+                        <div><span>Привод</span><strong>{{ car.drive|default:"-" }}</strong></div>
+                        <div><span>Руль</span><strong>{{ car.wheel }}</strong></div>
+                        <div><span>Цвет</span><strong>{{ car.color }}</strong></div>
+                        <div><span>Топливо</span><strong>{{ car.fuel_type }}</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><i class="fa-solid fa-car-side"></i> {{ settings.title|default:'MARYAM Trading' }}</h3>
+                    <p>{{ settings.description|default:'Maryam Trading предлагает полный спектр услуг по подбору, покупке и доставке надежных автомобилей из Южной Кореи.' }}</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/996770000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://t.me/@Abubakr_jr" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://instagram.com/@Abubakr.jr2010" target="_blank"><i
+                                class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Быстрые ссылки</h4>
+                    <ul>
+                        <li><a href="/gallery">Каталог авто</a></li>
+                        <li><a href="/about">О компании</a></li>
+                        <li><a href="/contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-location-dot"></i> {{ settings.address|default:'A.Shakirov 132, Osh, Kyrgyzstan' }}</li>
+                        <li><i class="fa-solid fa-phone"></i> {{ settings.phone|default:'+996 700 123 456' }}</li>
+                        <li><i class="fa-solid fa-envelope"></i> {{ settings.email|default:'abubakrdev10@gmail.com' }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 {{ settings.title|default:'MARYAM Trading' }}. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/pages/car-details.js"></script>
+</body>
+
+</html>

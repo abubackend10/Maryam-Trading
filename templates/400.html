@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_name %}error{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/_error.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="error-container">
+        <h1 class="error-code" data-text="400">400</h1>
+        <h2 class="error-title">Неверный запрос</h2>
+        <p class="error-desc">Сервер не смог понять ваш запрос. Пожалуйста, проверьте введенные данные и попробуйте снова.</p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary btn-lg"><i class="fa-solid fa-house"></i> На главную</a>
+            <a href="javascript:history.back()" class="btn btn-outline btn-lg"><i class="fa-solid fa-arrow-left"></i> Назад</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/error.js' %}"></script>
+{% endblock %}

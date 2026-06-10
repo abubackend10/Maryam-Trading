@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Maryam Trading - Продажа автомобилей из Кореи. Новые и бу авто с гарантией">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Maryam Trading | Авто из Кореи</title>
+    {% if settings.favicon %}
+    <link rel="icon" href="{{ settings.favicon.url }}" type="image/x-icon">
+    {% endif %}
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body data-page="{% block page_name %}home{% endblock %}">
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                {% if settings.logo %}
+                    <img src="{{ settings.logo.url }}" alt="{{ settings.title }}" class="logo-img" style="height: 40px; width: auto; object-fit: contain; flex-shrink: 0;">
+                {% endif %}
+                <span>{{ settings.title|default:"Maryam Trading" }}</span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Главная</a></li>
+                <li><a href="/gallery" class="nav-link"><i class="fa-solid fa-car"></i> Автомобили</a></li>
+                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> О нас</a></li>
+                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>{{ settings.title }}</h3>
+                    <p>{{ settings.description }}</p>
+                    <div class="social-links">
+                        {% if settings.watsapp %}<a href="https://wa.me/{{ settings.watsapp }}" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>{% endif %}
+                        {% if settings.telegram %}<a href="https://t.me/{{ settings.telegram }}" target="_blank"><i class="fa-brands fa-telegram"></i></a>{% endif %}
+                        {% if settings.instagram %}<a href="https://instagram.com/{{ settings.instagram }}" target="_blank"><i class="fa-brands fa-instagram"></i></a>{% endif %}
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Быстрые ссылки</h4>
+                    <ul>
+                        <li><a href="/gallery">Каталог авто</a></li>
+                        <li><a href="/about">О компании</a></li>
+                        <li><a href="/contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-location-dot"></i> {{ settings.address }}</li>
+                        <li><i class="fa-solid fa-phone"></i> {{ settings.phone }}</li>
+                        <li><i class="fa-solid fa-envelope"></i> {{ settings.email }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {% now "Y" %} {{ settings.title }}. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

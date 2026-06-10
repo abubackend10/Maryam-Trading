@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_name %}contact{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header-bg">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80" alt="Контакты">
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="page-header-content">
+        <h1 class="page-title"><i class="fa-solid fa-phone"></i> Свяжитесь с нами</h1>
+        <p class="page-subtitle">Мы всегда на связи</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <i class="fa-solid {% if message.tags == 'success' %}fa-check-circle{% else %}fa-circle-exclamation{% endif %}" style="margin-right: 12px; font-size: 1.2rem;"></i>
+                        <span>{{ message }}</span>
+                        <button type="button" class="alert-close-btn" aria-label="Закрыть"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="contact-grid">
+            <div class="contact-info glass-card">
+                <h2>Контактная информация</h2>
+                
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div><h3>Адрес</h3><p>{{ settings.address|linebreaksbr }}</p></div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div><h3>Телефон</h3><p>{{ settings.phone|linebreaksbr }}</p></div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div><h3>Email</h3><p>{{ settings.email|linebreaksbr }}</p></div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div><h3>Часы работы</h3><p>Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 15:00</p></div>
+                </div>
+                
+                <div class="social-links-large">
+                    {% if settings.watsapp %}<a href="https://wa.me/{{ settings.watsapp }}" class="social-btn whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>{% endif %}
+                    {% if settings.telegram %}<a href="https://t.me/{{ settings.telegram }}" class="social-btn telegram" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>{% endif %}
+                </div>
+            </div>
+            
+            <div class="contact-form glass-card">
+                <h2>Отправить сообщение</h2>
+                
+                <form id="contactForm" method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <div style="display:none;" aria-hidden="true">
+                        <label for="id_website">Website</label>
+                        <input type="text" name="website" id="id_website" tabindex="-1" autocomplete="off">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_name">Ваше имя</label>
+                        <input type="text" name="name" id="id_name" class="form-input" required placeholder="Иван Иванов">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_email">Email</label>
+                        <input type="email" name="email" id="id_email" class="form-input" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_phone">Телефон</label>
+                        <input type="tel" name="phone" id="id_phone" class="form-input" required placeholder="+7 (999) 123-45-67">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_message">Сообщение</label>
+                        <textarea name="message" id="id_message" class="form-input" rows="5" required placeholder="Ваше сообщение..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/_contact.css' %}?v=2.0">{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/pages/contact.js' %}?v=2.0"></script>
+{% endblock %}

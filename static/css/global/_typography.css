@@ -1,0 +1,20 @@
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+p {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-gray);
+}
+
+.text-center { text-align: center; }
+
+.text-gradient {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-accent { color: var(--color-primary); }
