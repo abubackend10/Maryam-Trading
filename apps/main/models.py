@@ -110,11 +110,11 @@ class Car(models.Model):
         return None
     @property
     def formatted_price(self):
-        return f"{self.price:,}".replace(",", " ")
+        return f"{self.price or 0:,}".replace(",", " ")
 
     @property
     def formatted_mileage(self):
-        return f"{self.mileage:,}".replace(",", " ")
+        return f"{self.mileage or 0:,}".replace(",", " ")
 
     @property
     def youtube_preview_url(self):
