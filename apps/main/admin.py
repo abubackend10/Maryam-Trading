@@ -1,7 +1,6 @@
 from django.contrib import admin
 # pyrefly: ignore [missing-import]
 from .models import Car, CarImage, Settings, Statistic, Advantage, About, ContactMessage, Brand
-
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -38,12 +37,9 @@ class AdvantageAdmin(admin.ModelAdmin):
 @admin.register(About)
 class AboutAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        # Ограничиваем создание, чтобы была только одна запись
         return not About.objects.exists()
-
     def has_delete_permission(self, request, obj=None):
         return False
-
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'phone', 'created_at', 'is_processed')
