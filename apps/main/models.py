@@ -1,8 +1,18 @@
 from django.db import models
 import urllib.parse as urlparse
 
+class Brand(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Название марки")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Марка'
+        verbose_name_plural = 'Марки'
+
 class Settings(models.Model):
-    favicon = models.ImageField(upload_to='favicons/', blank=True, null=True, verbose_name="Фавикон (иконка сайта)")
+    favicon = models.ImageField(upload_to='favicons/', blank=True, null=True, verbose_name="Фавикон")
     logo = models.ImageField(upload_to='logos/', blank=True, null=True)
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=150)
@@ -20,20 +30,20 @@ class Settings(models.Model):
     
     class Meta:
         verbose_name = 'Основная настройка'
-        verbose_name_plural = '01)Основные настройки'
+        verbose_name_plural = 'Основные настройки'
 
 
 class Statistic(models.Model):
-    label = models.CharField(max_length=100, verbose_name="Заголовок (н-р: Авто в наличии)")
-    value = models.IntegerField(verbose_name="Значение (число)")
-    icon = models.CharField(max_length=100, verbose_name="Иконка FontAwesome", blank=True, help_text="Например: fa-solid fa-car")
+    label = models.CharField(max_length=100, verbose_name="Заголовок")
+    value = models.IntegerField(verbose_name="Значение")
+    icon = models.CharField(max_length=100, verbose_name="Иконка FontAwesome", blank=True)
 
     def __str__(self):
         return self.label
 
     class Meta:
         verbose_name = 'Статистика'
-        verbose_name_plural = '2) Статистики'
+        verbose_name_plural = 'Статистика'
 
 
 class Car(models.Model):
@@ -41,21 +51,44 @@ class Car(models.Model):
         ('new', 'Новый'),
         ('used', 'С пробегом'),
     ]
-    
+
+    FUEL_CHOICES = [
+        ('Бензин', 'Бензин'),
+        ('Дизель', 'Дизель'),
+        ('Электрический', 'Электрический'),
+    ]
+
+    TRANSMISSION_CHOICES = [
+        ('Автомат', 'Автомат'),
+        ('Механика', 'Механика'),
+    ]
+
+    DRIVE_CHOICES = [
+        ('Передний', 'Передний'),
+        ('Задний', 'Задний'),
+        ('Полный', 'Полный'),
+    ]
+
+    WHEEL_CHOICES = [
+        ('Левый', 'Левый'),
+        ('Правый', 'Правый'),
+    ]
+
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='cars', verbose_name="Марка")
     title = models.CharField(max_length=255, verbose_name="Название (Марка и модель)")
     description = models.TextField(verbose_name="Описание")
     year = models.PositiveIntegerField(verbose_name="Год выпуска")
     mileage = models.PositiveIntegerField(verbose_name="Пробег (км)")
-    fuel_type = models.CharField(max_length=100, verbose_name="Тип топлива")
-    transmission = models.CharField(max_length=100, verbose_name="Коробка передач")
+    fuel_type = models.CharField(max_length=100, choices=FUEL_CHOICES, verbose_name="Тип топлива")
+    transmission = models.CharField(max_length=100, choices=TRANSMISSION_CHOICES, verbose_name="Коробка передач")
     color = models.CharField(max_length=100, verbose_name="Цвет")
     price = models.IntegerField(verbose_name="Цена ($)")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='used', verbose_name="Статус")
     image = models.ImageField(upload_to='cars/', verbose_name="Главное изображение")
-    video_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="YouTube видео (ссылка)")
-    engine = models.CharField(max_length=100, verbose_name="Двигатель", blank=True, null=True, help_text="Например: 2.5 л / 180 л.с")
-    drive = models.CharField(max_length=100, verbose_name="Привод", blank=True, null=True, help_text="Например: Передний")
-    wheel = models.CharField(max_length=100, verbose_name="Руль", default="Левый")
+    video_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="YouTube видео")
+    engine = models.CharField(max_length=100, verbose_name="Двигатель", blank=True, null=True)
+    drive = models.CharField(max_length=100, choices=DRIVE_CHOICES, verbose_name="Привод", blank=True, null=True)
+    wheel = models.CharField(max_length=100, choices=WHEEL_CHOICES, verbose_name="Руль", default="Левый")
     created_at = models.DateTimeField(auto_now_add=True)
     is_featured = models.BooleanField(default=False, verbose_name="Показывать на главной")
     is_sold = models.BooleanField(default=False, verbose_name="Продано")
@@ -102,7 +135,6 @@ class Car(models.Model):
     def youtube_preview_url(self):
         embed_url = self.youtube_embed_url
         if embed_url and 'embed/' in embed_url:
-            # Извлекаем ID из сформированной ссылки (последняя часть пути)
             video_id = embed_url.split('/')[-1].split('?')[0]
             return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
         return None
@@ -112,7 +144,7 @@ class Car(models.Model):
 
     class Meta:
         verbose_name = 'Автомобиль'
-        verbose_name_plural = '3) Автомобили'
+        verbose_name_plural = 'Автомобили'
         ordering = ['-created_at']
 
 
@@ -125,11 +157,11 @@ class CarImage(models.Model):
 
     class Meta:
         verbose_name = 'Дополнительное фото'
-        verbose_name_plural = '4) Дополнительные фото'
+        verbose_name_plural = 'Дополнительные фото'
 
 
 class Advantage(models.Model):
-    icon = models.CharField(max_length=100, verbose_name="Иконка FontAwesome", help_text="Например: fa-solid fa-shield-halved")
+    icon = models.CharField(max_length=100, verbose_name="Иконка FontAwesome")
     title = models.CharField(max_length=100, verbose_name="Заголовок")
     description = models.TextField(verbose_name="Описание")
     order = models.PositiveIntegerField(default=0, verbose_name="Порядок сортировки")
@@ -139,7 +171,7 @@ class Advantage(models.Model):
 
     class Meta:
         verbose_name = 'Преимущество'
-        verbose_name_plural = '5) Преимущества'
+        verbose_name_plural = 'Преимущества'
         ordering = ['order']
 
 
@@ -152,7 +184,7 @@ class About(models.Model):
 
     class Meta:
         verbose_name = 'О нас'
-        verbose_name_plural = '6) О нас'
+        verbose_name_plural = 'О нас'
 
 
 class ContactMessage(models.Model):
@@ -167,6 +199,6 @@ class ContactMessage(models.Model):
         return f"Сообщение от {self.name} ({self.created_at.strftime('%d.%m.%Y %H:%M')})"
 
     class Meta:
-        verbose_name = 'Сообщения с сайта'
-        verbose_name_plural = '7) Сообщение с сайта'
+        verbose_name = 'Сообщение с сайта'
+        verbose_name_plural = 'Сообщения с сайта'
         ordering = ['-created_at']

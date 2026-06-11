@@ -8,9 +8,12 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = ['*'] # In production, set specific allowed hosts
+ALLOWED_HOSTS = ['*']
+
 if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
-    ALLOWED_HOSTS.append(os.getenv('RENDER_EXTERNAL_HOSTNAME'))
+    hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+    ALLOWED_HOSTS.append(hostname)
+    CSRF_TRUSTED_ORIGINS = [f'https://{hostname}']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,8 +25,6 @@ INSTALLED_APPS = [
     'apps.main'
 ]
 
-# Добавляем приложения Cloudinary только если настроены переменные окружения
-# Это предотвратит вмешательство cloudinary_storage в collectstatic в dev-режиме
 if os.getenv('CLOUDINARY_CLOUD_NAME'):
     INSTALLED_APPS.append('cloudinary_storage')
     INSTALLED_APPS.append('cloudinary')
@@ -99,17 +100,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-# Совместимость: cloudinary-storage требует наличия этой переменной, 
-# даже если настроен словарь STORAGES
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Определяем, где Django будет искать статические файлы
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Конфигурация хранилищ для Django 5.1+
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage" if os.getenv('CLOUDINARY_CLOUD_NAME') else "django.core.files.storage.FileSystemStorage",
@@ -119,14 +116,12 @@ STORAGES = {
     },
 }
 
-# Cloudinary for media files
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# Production security settings
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True

@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django_ratelimit.decorators import ratelimit
 # pyrefly: ignore [missing-import]
-from .models import Advantage, Car, Settings, About, ContactMessage
+from .models import Advantage, Car, Settings, About, ContactMessage, Brand
 
 def home(request):
     featured_cars = Car.objects.filter(is_featured=True)[:4]
@@ -15,7 +15,11 @@ def home(request):
 
 def gallery(request):
     cars = Car.objects.all()
-    return render(request, 'gallery.html', {'cars': cars})
+    brands = Brand.objects.all()
+    return render(request, 'gallery.html', {
+        'cars': cars,
+        'brands': brands
+    })
 
 
 def car_details(request, car_id):
@@ -30,10 +34,8 @@ def about(request):
 @ratelimit(key='ip', rate='5/h', block=True)
 def contact(request):
     if request.method == 'POST':
-        # Honeypot field (hidden from real users, filled by bots)
         honeypot = request.POST.get('website', '')
         if honeypot:
-            # Fake success for bots
             messages.success(request, 'Ваше сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.')
             return redirect('contact')
 

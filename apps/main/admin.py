@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Car, CarImage, Settings, Statistic, Advantage, About, ContactMessage
+# pyrefly: ignore [missing-import]
+from .models import Car, CarImage, Settings, Statistic, Advantage, About, ContactMessage, Brand
+
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
 @admin.register(Settings)
 class SettingsAdmin(admin.ModelAdmin):
@@ -18,8 +24,8 @@ class CarImageInline(admin.TabularInline):
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('title', 'year', 'price', 'status', 'is_featured')
-    list_filter = ('status', 'is_featured')
+    list_display = ('title', 'brand', 'year', 'price', 'status', 'is_featured')
+    list_filter = ('brand', 'status', 'is_featured')
     search_fields = ('title',)
     list_editable = ('is_featured',)
     inlines = [CarImageInline]
