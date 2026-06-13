@@ -13,14 +13,12 @@
     <div class="hero-content">
         <h1 class="hero-title">{{ settings.title }}</h1>
         <p class="hero-subtitle">{{ settings.subtitle }}</p>
-        <div class="hero-desc-wrapper" style="background: rgba(255, 255, 255, 0.05); padding: 25px 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); border-left: 4px solid var(--primary-color); margin: 0 auto var(--spacing-lg) auto; max-width: 800px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <p class="hero-desc" style="color: #ffffff; font-size: 1.2rem; font-weight: 300; line-height: 1.8; text-align: left; margin: 0; letter-spacing: 0.5px;">
-                {{ settings.description|linebreaksbr }}
-            </p>
-        </div>
+        <p class="hero-desc" style="color: #ffffff; font-size: 1.25rem; font-weight: 400; line-height: 1.6; text-align: center; margin: 0 auto var(--spacing-lg) auto; max-width: 550px; letter-spacing: 0.5px;">
+            {{ settings.description|linebreaksbr }}
+        </p>
         <div class="hero-buttons">
-            <a href="/catalog/" class="btn btn-primary btn-lg"><i class="fa-solid fa-car"></i> РЎРјРѕС‚СЂРµС‚СЊ Р°РІС‚Рѕ</a>
-            <a href="/contact" class="btn btn-outline btn-lg"><i class="fa-solid fa-phone"></i> РЎРІСЏР·Р°С‚СЊСЃСЏ</a>
+            <a href="/catalog/" class="btn btn-primary btn-lg"><i class="fa-solid fa-car"></i> Смотреть авто</a>
+            <a href="/contact" class="btn btn-outline btn-lg"><i class="fa-solid fa-phone"></i> Связаться</a>
         </div>
         <div class="hero-stats">
             {% for stat in stats %}
@@ -31,14 +29,14 @@
             {% endfor %}
         </div>
     </div>
-    <div class="scroll-indicator"><span>Р›РёСЃС‚Р°Р№С‚Рµ РІРЅРёР·</span><i class="fa-solid fa-chevron-down"></i></div>
+    <div class="scroll-indicator"><span>Листайте вниз</span><i class="fa-solid fa-chevron-down"></i></div>
 </section>
 
 <section class="cars-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title"><i class="fa-solid fa-fire"></i> РџРѕРїСѓР»СЏСЂРЅС‹Рµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ</h2>
-            <a href="/catalog/" class="btn btn-text">Р’СЃРµ Р°РІС‚Рѕ <i class="fa-solid fa-arrow-right"></i></a>
+            <h2 class="section-title"><i class="fa-solid fa-fire"></i> Популярные предложения</h2>
+            <a href="/catalog/" class="btn btn-text">Все авто <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div class="cars-grid" id="featuredCars">
             {% for car in featured_cars %}
@@ -52,7 +50,7 @@
                         {{ car.get_status_display }}
                     </span>
                     {% if car.is_sold %}
-                    <img src="{% static 'img/sold-stamp.png' %}" alt="РџСЂРѕРґР°РЅРѕ" class="sold-stamp">
+                    <img src="{% static 'img/sold-stamp.png' %}" alt="Продано" class="sold-stamp">
                     {% endif %}
                 </div>
                 <div class="car-card-body">
@@ -63,10 +61,10 @@
                             style="margin: 0; font-size: 1.1rem; font-weight: bold; color: var(--primary-color); white-space: nowrap;">
                             {{ car.formatted_price }}$</div>
                     </div>
-                    <p class="car-year" style="margin: 0 0 10px 0; font-size: 0.9rem; opacity: 0.8;">{{ car.year }} РіРѕРґ
+                    <p class="car-year" style="margin: 0 0 10px 0; font-size: 0.9rem; opacity: 0.8;">{{ car.year }} год
                     </p>
                     <div class="car-specs">
-                        <span><i class="fa-solid fa-gauge"></i> {{ car.formatted_mileage }} РєРј</span>
+                        <span><i class="fa-solid fa-gauge"></i> {{ car.formatted_mileage }} км</span>
                         <span><i class="fa-solid fa-gas-pump"></i> {{ car.fuel_type }}</span>
                         <span><i class="fa-solid fa-gears"></i> {{ car.transmission }}</span>
                         <span><i class="fa-solid fa-palette"></i> {{ car.color }}</span>
@@ -76,25 +74,25 @@
                         {% if car.is_sold %}
                         <button class="btn btn-secondary" disabled
                             style="grid-column: 1 / -1; width: 100%; opacity: 0.8; cursor: not-allowed; background: #333; color: #888; border: 1px solid #444; height: 44px; font-weight: bold; letter-spacing: 1px; white-space: nowrap;">
-                            РђР’РўРћРњРћР‘РР›Р¬ РџР РћР”РђРќ</button>
+                            АВТОМОБИЛЬ ПРОДАН</button>
                         {% else %}
-                        <a href="{% url 'car_details' car.id %}" class="btn btn-outline">РџРѕРґСЂРѕР±РЅРµРµ</a>
-                        <a href="https://wa.me/{{ settings.watsapp }}?text=РРЅС‚РµСЂРµСЃСѓСЋСЃСЊ {{ car.title }}"
-                            class="btn btn-primary">Р—Р°РєР°Р·Р°С‚СЊ</a>
+                        <a href="{% url 'car_details' car.id %}" class="btn btn-outline">Подробнее</a>
+                        <a href="https://wa.me/{{ settings.watsapp }}?text=Интересуюсь {{ car.title }}"
+                            class="btn btn-primary">Заказать</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
             {% empty %}
-            <!-- РљСЂР°СЃРёРІР°СЏ Р·Р°РіР»СѓС€РєР°, РµСЃР»Рё РЅРµС‚ РёР·Р±СЂР°РЅРЅС‹С… Р°РІС‚Рѕ -->
+            <!-- Красивая заглушка, если нет избранных авто -->
             <div class="empty-featured"
                 style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.05); border-radius: 20px; border: 2px dashed rgba(0,0,0,0.1);">
                 <div style="font-size: 50px; color: #ccc; margin-bottom: 15px;">
                     <i class="fa-solid fa-star-half-stroke"></i>
                 </div>
-                <h3 style="margin-bottom: 10px;">РќРѕРІРёРЅРєРё СЃРєРѕСЂРѕ РїРѕСЏРІСЏС‚СЃСЏ</h3>
-                <p style="color: #888;">РЎРµР№С‡Р°СЃ РјС‹ РїРѕРґР±РёСЂР°РµРј Р»СѓС‡С€РёРµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РґР»СЏ РІР°СЃ.</p>
-                <a href="{% url 'catalog' %}" class="btn btn-primary" style="margin-top: 15px;">РџРµСЂРµР№С‚Рё РІ РєР°С‚Р°Р»РѕРі</a>
+                <h3 style="margin-bottom: 10px;">Новинки скоро появятся</h3>
+                <p style="color: #888;">Сейчас мы подбираем лучшие предложения для вас.</p>
+                <a href="{% url 'catalog' %}" class="btn btn-primary" style="margin-top: 15px;">Перейти в каталог</a>
             </div>
             {% endfor %}
         </div>
@@ -103,7 +101,7 @@
 
 <section class="why-us">
     <div class="container">
-        <h2 class="section-title text-center"><i class="fa-solid fa-crown"></i> РџРѕС‡РµРјСѓ РІС‹Р±РёСЂР°СЋС‚ РЅР°СЃ</h2>
+        <h2 class="section-title text-center"><i class="fa-solid fa-crown"></i> Почему выбирают нас</h2>
         <div class="features-grid">
             {% for advantage in advantages %}
             <div class="feature-card glass-card">
@@ -122,10 +120,10 @@
             <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80" alt="CTA" class="cta-image"
                 loading="lazy">
             <div class="cta-content">
-                <h2>Р“РѕС‚РѕРІС‹ РЅР°Р№С‚Рё СЃРІРѕР№ Р°РІС‚РѕРјРѕР±РёР»СЊ?</h2>
-                <p>РЎРІСЏР¶РёС‚РµСЃСЊ СЃ РЅР°РјРё СЃРµРіРѕРґРЅСЏ Рё РїРѕР»СѓС‡РёС‚Рµ Р»СѓС‡С€РёРµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РёР· РљРѕСЂРµРё</p>
-                <a href="/contact" class="btn btn-primary btn-lg"><i class="fa-solid fa-paper-plane"></i> РЎРІСЏР·Р°С‚СЊСЃСЏ
-                    СЃРµР№С‡Р°СЃ</a>
+                <h2>Готовы найти свой автомобиль?</h2>
+                <p>Свяжитесь с нами сегодня и получите лучшие предложения из Кореи</p>
+                <a href="/contact" class="btn btn-primary btn-lg"><i class="fa-solid fa-paper-plane"></i> Связаться
+                    сейчас</a>
             </div>
         </div>
     </div>
