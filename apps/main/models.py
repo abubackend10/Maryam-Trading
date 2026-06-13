@@ -64,7 +64,7 @@ class Car(models.Model):
         ('Правый', 'Правый'),
     ]
 
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='cars', verbose_name="Марка")
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, related_name='cars', verbose_name="Марка", null=True, blank=True)
     title = models.CharField(max_length=255, verbose_name="Название (Марка и модель)")
     description = models.TextField(verbose_name="Описание")
     year = models.PositiveIntegerField(verbose_name="Год выпуска")

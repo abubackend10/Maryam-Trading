@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django_ratelimit.decorators import ratelimit
-# pyrefly: ignore [missing-import]
 from .models import Advantage, Car, Settings, About, ContactMessage, Brand, Statistic
 def home(request):
     featured_cars = Car.objects.filter(is_featured=True)[:4]
@@ -25,26 +24,19 @@ def about(request):
     about_data = About.objects.first()
     return render(request, 'about.html', {'about': about_data})
 
-@ratelimit(key='ip', rate='5/h', block=True)
+@ratelimit(key='ip', rate='5/h', method='POST', block=True)
 def contact(request):
     if request.method == 'POST':
-        honeypot = request.POST.get('website', '')
-        if honeypot:
+        if request.POST.get('website'):
             messages.success(request, 'Ваше сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.')
             return redirect('contact')
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-
+        name, email = request.POST.get('name', '').strip(), request.POST.get('email', '').strip()
+        phone, message = request.POST.get('phone', '').strip(), request.POST.get('message', '').strip()
         if name and email and phone and message:
-            ContactMessage.objects.create(
-                name=name, email=email, phone=phone, message=message
-            )
+            ContactMessage.objects.create(name=name, email=email, phone=phone, message=message)
             messages.success(request, 'Ваше сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.')
             return redirect('contact')
         else:
             messages.error(request, 'Пожалуйста, заполните все поля формы.')
 
-    settings = Settings.objects.first()
-    return render(request, 'contact.html', {'settings': settings})
+    return render(request, 'contact.html')
