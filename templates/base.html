@@ -1,12 +1,12 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Maryam Trading - Продажа автомобилей из Кореи. Новые и бу авто с гарантией">
+    <meta name="description" content="Maryam Trading - РџСЂРѕРґР°Р¶Р° Р°РІС‚РѕРјРѕР±РёР»РµР№ РёР· РљРѕСЂРµРё. РќРѕРІС‹Рµ Рё Р±Сѓ Р°РІС‚Рѕ СЃ РіР°СЂР°РЅС‚РёРµР№">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Maryam Trading | Авто из Кореи</title>
+    <title>Maryam Trading | РђРІС‚Рѕ РёР· РљРѕСЂРµРё</title>
     {% if settings.favicon %}
     <link rel="icon" href="{{ settings.favicon.url }}" type="image/x-icon">
     {% endif %}
@@ -32,10 +32,10 @@
             </button>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Главная</a></li>
-                <li><a href="/gallery" class="nav-link"><i class="fa-solid fa-car"></i> Автомобили</a></li>
-                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> О нас</a></li>
-                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Контакты</a></li>
+                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Р“Р»Р°РІРЅР°СЏ</a></li>
+                <li><a href="/catalog/" class="nav-link"><i class="fa-solid fa-car"></i> РђРІС‚РѕРјРѕР±РёР»Рё</a></li>
+                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> Рћ РЅР°СЃ</a></li>
+                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> РљРѕРЅС‚Р°РєС‚С‹</a></li>
             </ul>
         </div>
     </nav>
@@ -57,15 +57,15 @@
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h4>Быстрые ссылки</h4>
+                    <h4>Р‘С‹СЃС‚СЂС‹Рµ СЃСЃС‹Р»РєРё</h4>
                     <ul>
-                        <li><a href="/gallery">Каталог авто</a></li>
-                        <li><a href="/about">О компании</a></li>
-                        <li><a href="/contact">Контакты</a></li>
+                        <li><a href="/catalog/">РљР°С‚Р°Р»РѕРі Р°РІС‚Рѕ</a></li>
+                        <li><a href="/about">Рћ РєРѕРјРїР°РЅРёРё</a></li>
+                        <li><a href="/contact">РљРѕРЅС‚Р°РєС‚С‹</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
-                    <h4>Контакты</h4>
+                    <h4>РљРѕРЅС‚Р°РєС‚С‹</h4>
                     <ul>
                         <li><i class="fa-solid fa-location-dot"></i> {{ settings.address }}</li>
                         <li><i class="fa-solid fa-phone"></i> {{ settings.phone }}</li>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; {% now "Y" %} {{ settings.title }}. Все права защищены.</p>
+                <p>&copy; {% now "Y" %} {{ settings.title }}. Р’СЃРµ РїСЂР°РІР° Р·Р°С‰РёС‰РµРЅС‹.</p>
             </div>
         </div>
     </footer>

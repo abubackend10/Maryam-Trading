@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 {% block page_name %}about{% endblock %}
 
@@ -6,12 +6,12 @@
 
 <section class="page-header">
     <div class="page-header-bg">
-        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1920&q=80" alt="О нас">
+        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1920&q=80" alt="Рћ РЅР°СЃ">
         <div class="hero-overlay"></div>
     </div>
     <div class="page-header-content">
-        <h1 class="page-title"><i class="fa-solid fa-building"></i> О компании</h1>
-        <p class="page-subtitle">Узнайте больше о Maryam Trading</p>
+        <h1 class="page-title"><i class="fa-solid fa-building"></i> Рћ РєРѕРјРїР°РЅРёРё</h1>
+        <p class="page-subtitle">РЈР·РЅР°Р№С‚Рµ Р±РѕР»СЊС€Рµ Рѕ Maryam Trading</p>
     </div>
 </section>
 
@@ -20,11 +20,11 @@
         <div class="about-grid">
             <div class="about-image">
                 {% if about.image %}
-                    <img src="{{ about.image.url }}" alt="О нас">
+                    <img src="{{ about.image.url }}" alt="Рћ РЅР°СЃ">
                 {% endif %}
             </div>
             <div class="about-text">
-                <h2>Наша история</h2>
+                <h2>РќР°С€Р° РёСЃС‚РѕСЂРёСЏ</h2>
                 <p>{{ about.history|linebreaks }}</p>
             </div>
         </div>

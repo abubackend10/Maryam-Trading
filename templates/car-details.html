@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="{{ settings.description|default:'Maryam Trading - Продажа автомобилей из Кореи. Новые и бу авто с гарантией' }}">
+        content="{{ settings.description|default:'Maryam Trading - РџСЂРѕРґР°Р¶Р° Р°РІС‚РѕРјРѕР±РёР»РµР№ РёР· РљРѕСЂРµРё. РќРѕРІС‹Рµ Рё Р±Сѓ Р°РІС‚Рѕ СЃ РіР°СЂР°РЅС‚РёРµР№' }}">
     <meta name="theme-color" content="#0a0a0a">
     <title>{{ settings.title|default:'Maryam Trading' }} | {{ car.title }}</title>
 
@@ -32,10 +32,10 @@
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Главная</a></li>
-                <li><a href="/gallery" class="nav-link"><i class="fa-solid fa-car"></i> Автомобили</a></li>
-                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> О нас</a></li>
-                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Контакты</a></li>
+                <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Р“Р»Р°РІРЅР°СЏ</a></li>
+                <li><a href="/catalog/" class="nav-link"><i class="fa-solid fa-car"></i> РђРІС‚РѕРјРѕР±РёР»Рё</a></li>
+                <li><a href="/about" class="nav-link"><i class="fa-solid fa-circle-info"></i> Рћ РЅР°СЃ</a></li>
+                <li><a href="/contact" class="nav-link"><i class="fa-solid fa-envelope"></i> РљРѕРЅС‚Р°РєС‚С‹</a></li>
             </ul>
         </div>
     </nav>
@@ -43,7 +43,7 @@
     <main>
         <section class="car-details-section">
             <div class="container">
-                <a href="/gallery" class="back-link"><i class="fa-solid fa-arrow-left"></i> Назад в каталог</a>
+                <a href="/catalog/" class="back-link"><i class="fa-solid fa-arrow-left"></i> РќР°Р·Р°Рґ РІ РєР°С‚Р°Р»РѕРі</a>
 
                 <div class="car-details-grid">
 
@@ -56,7 +56,7 @@
                             {% endif %}
 
                             {% if car.is_sold %}
-                            <img src="{% static 'img/sold-stamp.png' %}" alt="Продано" class="sold-stamp">
+                            <img src="{% static 'img/sold-stamp.png' %}" alt="РџСЂРѕРґР°РЅРѕ" class="sold-stamp">
                             {% endif %}
 
                             <div id="videoContainer" style="display: none; width: 100%; height: 100%;">
@@ -104,14 +104,14 @@
                                     <h1 style="margin: 0;">{{ car.title }}</h1>
                                     {% if car.status == 'new' %}
                                     <span class="car-badge badge-new"
-                                        style="background-color: #ff2a2a; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">Новый</span>
+                                        style="background-color: #ff2a2a; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">РќРѕРІС‹Р№</span>
                                     {% else %}
                                     <span class="car-badge badge-used"
-                                        style="background-color: #555; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">С
-                                        пробегом</span>
+                                        style="background-color: #555; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap;">РЎ
+                                        РїСЂРѕР±РµРіРѕРј</span>
                                     {% endif %}
                                 </div>
-                                <p class="car-year" style="margin: 0;">{{ car.year }} год</p>
+                                <p class="car-year" style="margin: 0;">{{ car.year }} РіРѕРґ</p>
                             </div>
                             <div class="car-price-large"
                                 style="margin: 0; font-size: 2rem; color: var(--primary-color); white-space: nowrap;">
@@ -119,28 +119,28 @@
                         </div>
 
                         <div class="car-specs-details">
-                            <div class="spec-item"><i class="fa-solid fa-gauge"></i><span>Пробег</span><strong>{{ car.formatted_mileage }} км</strong></div>
-                            <div class="spec-item"><i class="fa-solid fa-cog"></i><span>КПП</span><strong>{{ car.transmission }}</strong></div>
-                            <div class="spec-item"><i class="fa-solid fa-calendar"></i><span>Год</span><strong>{{ car.year }}</strong></div>
-                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i><span>Топливо</span><strong>{{ car.fuel_type }}</strong></div>
-                            <div class="spec-item"><i class="fa-solid fa-car-side"></i><span>Привод</span><strong>{{ car.drive|default:"-" }}</strong></div>
-                            <div class="spec-item"><i class="fa-solid fa-palette"></i><span>Цвет</span><strong>{{ car.color }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-gauge"></i><span>РџСЂРѕР±РµРі</span><strong>{{ car.formatted_mileage }} РєРј</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-cog"></i><span>РљРџРџ</span><strong>{{ car.transmission }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-calendar"></i><span>Р“РѕРґ</span><strong>{{ car.year }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i><span>РўРѕРїР»РёРІРѕ</span><strong>{{ car.fuel_type }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-car-side"></i><span>РџСЂРёРІРѕРґ</span><strong>{{ car.drive|default:"-" }}</strong></div>
+                            <div class="spec-item"><i class="fa-solid fa-palette"></i><span>Р¦РІРµС‚</span><strong>{{ car.color }}</strong></div>
                         </div>
 
                         <div class="car-actions-large">
                             {% if car.is_sold %}
                             <button class="btn btn-sold btn-lg" disabled
                                 style="grid-column: 1 / -1; background: #6c757d; color: white; border: none; opacity: 0.7; cursor: not-allowed; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;">
-                                <i class="fa-solid fa-circle-xmark"></i> Данный автомобиль продан
+                                <i class="fa-solid fa-circle-xmark"></i> Р”Р°РЅРЅС‹Р№ Р°РІС‚РѕРјРѕР±РёР»СЊ РїСЂРѕРґР°РЅ
                             </button>
                             {% else %}
-                            <a href="https://wa.me/{{ settings.watsapp|default:'996770000000' }}?text=Интересуюсь%20{{ car.title }}"
+                            <a href="https://wa.me/{{ settings.watsapp|default:'996770000000' }}?text=РРЅС‚РµСЂРµСЃСѓСЋСЃСЊ%20{{ car.title }}"
                                 class="btn btn-whatsapp btn-lg" target="_blank">
-                                <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
+                                <i class="fa-brands fa-whatsapp"></i> РќР°РїРёСЃР°С‚СЊ РІ WhatsApp
                             </a>
                             <a href="https://t.me/{{ settings.telegram|default:'Abubakr_jr' }}"
                                 class="btn btn-telegram btn-lg" target="_blank">
-                                <i class="fa-brands fa-telegram"></i> Написать в Telegram
+                                <i class="fa-brands fa-telegram"></i> РќР°РїРёСЃР°С‚СЊ РІ Telegram
                             </a>
                             {% endif %}
                         </div>
@@ -148,24 +148,24 @@
                 </div>
 
                 <div class="car-description-section" style="margin: 40px 0; padding: 30px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
-                    <h2 style="margin-bottom: 20px; font-size: 1.8rem; color: var(--text-color);">Описание автомобиля</h2>
+                    <h2 style="margin-bottom: 20px; font-size: 1.8rem; color: var(--text-color);">РћРїРёСЃР°РЅРёРµ Р°РІС‚РѕРјРѕР±РёР»СЏ</h2>
                     <p style="font-size: 1.15rem; line-height: 1.8; color: #ccc; max-width: 900px; margin: 0 auto; font-weight: 400;">
                         {{ car.description|linebreaksbr }}
                     </p>
                 </div>
 
                 <div class="car-specs-full">
-                    <h2 style="margin-bottom: 20px;">Все характеристики</h2>
+                    <h2 style="margin-bottom: 20px;">Р’СЃРµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё</h2>
                     <div class="specs-grid">
-                        <div><span>Название</span><strong>{{ car.title }}</strong></div>
-                        <div><span>Год</span><strong>{{ car.year }}</strong></div>
-                        <div><span>Пробег</span><strong>{{ car.formatted_mileage }} км</strong></div>
-                        <div><span>Двигатель</span><strong>{{ car.engine|default:"-" }}</strong></div>
-                        <div><span>КПП</span><strong>{{ car.transmission }}</strong></div>
-                        <div><span>Привод</span><strong>{{ car.drive|default:"-" }}</strong></div>
-                        <div><span>Руль</span><strong>{{ car.wheel }}</strong></div>
-                        <div><span>Цвет</span><strong>{{ car.color }}</strong></div>
-                        <div><span>Топливо</span><strong>{{ car.fuel_type }}</strong></div>
+                        <div><span>РќР°Р·РІР°РЅРёРµ</span><strong>{{ car.title }}</strong></div>
+                        <div><span>Р“РѕРґ</span><strong>{{ car.year }}</strong></div>
+                        <div><span>РџСЂРѕР±РµРі</span><strong>{{ car.formatted_mileage }} РєРј</strong></div>
+                        <div><span>Р”РІРёРіР°С‚РµР»СЊ</span><strong>{{ car.engine|default:"-" }}</strong></div>
+                        <div><span>РљРџРџ</span><strong>{{ car.transmission }}</strong></div>
+                        <div><span>РџСЂРёРІРѕРґ</span><strong>{{ car.drive|default:"-" }}</strong></div>
+                        <div><span>Р СѓР»СЊ</span><strong>{{ car.wheel }}</strong></div>
+                        <div><span>Р¦РІРµС‚</span><strong>{{ car.color }}</strong></div>
+                        <div><span>РўРѕРїР»РёРІРѕ</span><strong>{{ car.fuel_type }}</strong></div>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <h3><i class="fa-solid fa-car-side"></i> {{ settings.title|default:'MARYAM Trading' }}</h3>
-                    <p>{{ settings.description|default:'Maryam Trading предлагает полный спектр услуг по подбору, покупке и доставке надежных автомобилей из Южной Кореи.' }}</p>
+                    <p>{{ settings.description|default:'Maryam Trading РїСЂРµРґР»Р°РіР°РµС‚ РїРѕР»РЅС‹Р№ СЃРїРµРєС‚СЂ СѓСЃР»СѓРі РїРѕ РїРѕРґР±РѕСЂСѓ, РїРѕРєСѓРїРєРµ Рё РґРѕСЃС‚Р°РІРєРµ РЅР°РґРµР¶РЅС‹С… Р°РІС‚РѕРјРѕР±РёР»РµР№ РёР· Р®Р¶РЅРѕР№ РљРѕСЂРµРё.' }}</p>
                     <div class="social-links">
                         <a href="https://wa.me/996770000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                         <a href="https://t.me/@Abubakr_jr" target="_blank"><i class="fa-brands fa-telegram"></i></a>
@@ -186,15 +186,15 @@
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h4>Быстрые ссылки</h4>
+                    <h4>Р‘С‹СЃС‚СЂС‹Рµ СЃСЃС‹Р»РєРё</h4>
                     <ul>
-                        <li><a href="/gallery">Каталог авто</a></li>
-                        <li><a href="/about">О компании</a></li>
-                        <li><a href="/contact">Контакты</a></li>
+                        <li><a href="/catalog/">РљР°С‚Р°Р»РѕРі Р°РІС‚Рѕ</a></li>
+                        <li><a href="/about">Рћ РєРѕРјРїР°РЅРёРё</a></li>
+                        <li><a href="/contact">РљРѕРЅС‚Р°РєС‚С‹</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
-                    <h4>Контакты</h4>
+                    <h4>РљРѕРЅС‚Р°РєС‚С‹</h4>
                     <ul>
                         <li><i class="fa-solid fa-location-dot"></i> {{ settings.address|default:'A.Shakirov 132, Osh, Kyrgyzstan' }}</li>
                         <li><i class="fa-solid fa-phone"></i> {{ settings.phone|default:'+996 700 123 456' }}</li>
@@ -203,7 +203,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 {{ settings.title|default:'MARYAM Trading' }}. Все права защищены.</p>
+                <p>&copy; 2026 {{ settings.title|default:'MARYAM Trading' }}. Р’СЃРµ РїСЂР°РІР° Р·Р°С‰РёС‰РµРЅС‹.</p>
             </div>
         </div>
     </footer>

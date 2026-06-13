@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
-{% block page_name %}gallery{% endblock %}
+{% block page_name %}catalog{% endblock %}
 
 {% block content %}
 
 <section class="page-header">
     <div class="page-header-bg">
-        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="Каталог">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="РљР°С‚Р°Р»РѕРі">
         <div class="hero-overlay"></div>
     </div>
     <div class="page-header-content">
-        <h1 class="page-title"><i class="fa-solid fa-car"></i> Каталог автомобилей</h1>
-        <p class="page-subtitle">Найдите свой идеальный автомобиль из Кореи</p>
+        <h1 class="page-title"><i class="fa-solid fa-car"></i> РљР°С‚Р°Р»РѕРі Р°РІС‚РѕРјРѕР±РёР»РµР№</h1>
+        <p class="page-subtitle">РќР°Р№РґРёС‚Рµ СЃРІРѕР№ РёРґРµР°Р»СЊРЅС‹Р№ Р°РІС‚РѕРјРѕР±РёР»СЊ РёР· РљРѕСЂРµРё</p>
     </div>
 </section>
 
@@ -20,13 +20,13 @@
 
         <div class="filter-bar glass-card">
             <button class="filter-toggle" id="filterToggle">
-                <i class="fa-solid fa-sliders"></i> Фильтры
+                <i class="fa-solid fa-sliders"></i> Р¤РёР»СЊС‚СЂС‹
             </button>
 
             <div class="filter-row" id="filterRow">
                 <div class="filter-item">
                     <select class="form-select">
-                        <option value="">Все марки</option>
+                        <option value="">Р’СЃРµ РјР°СЂРєРё</option>
                         {% for brand in brands %}
                         <option value="{{ brand.name|lower }}">{{ brand.name }}</option>
                         {% endfor %}
@@ -35,24 +35,24 @@
 
                 <div class="filter-item">
                     <select class="form-select" id="typeFilter">
-                        <option value="">Все типы</option>
-                        <option value="new">Новые</option>
-                        <option value="used">С пробегом</option>
+                        <option value="">Р’СЃРµ С‚РёРїС‹</option>
+                        <option value="new">РќРѕРІС‹Рµ</option>
+                        <option value="used">РЎ РїСЂРѕР±РµРіРѕРј</option>
                     </select>
                 </div>
 
                 <div class="filter-item">
                     <select class="form-select" id="priceFilter">
-                        <option value="">Все цены</option>
-                        <option value="0-10000">До 10 000$</option>
+                        <option value="">Р’СЃРµ С†РµРЅС‹</option>
+                        <option value="0-10000">Р”Рѕ 10 000$</option>
                         <option value="10000-20000">10 000$ - 20 000$</option>
                         <option value="20000-30000">20 000$ - 30 000$</option>
-                        <option value="30000+">От 30 000$</option>
+                        <option value="30000+">РћС‚ 30 000$</option>
                     </select>
                 </div>
 
                 <button class="btn btn-primary" id="applyFilters">
-                    <i class="fa-solid fa-magnifying-glass"></i> Найти
+                    <i class="fa-solid fa-magnifying-glass"></i> РќР°Р№С‚Рё
                 </button>
             </div>
         </div>
@@ -70,7 +70,7 @@
                         {{ car.get_status_display }}
                     </span>
                     {% if car.is_sold %}
-                    <img src="{% static 'img/sold-stamp.png' %}" alt="Продано" class="sold-stamp">
+                    <img src="{% static 'img/sold-stamp.png' %}" alt="РџСЂРѕРґР°РЅРѕ" class="sold-stamp">
                     {% endif %}
                 </div>
                 <div class="car-card-body">
@@ -81,10 +81,10 @@
                             style="margin: 0; font-size: 1.1rem; font-weight: bold; color: var(--primary-color); white-space: nowrap;">
                             {{ car.formatted_price }}$</div>
                     </div>
-                    <p class="car-year" style="margin: 0 0 10px 0; font-size: 0.9rem; opacity: 0.8;">{{ car.year }} год
+                    <p class="car-year" style="margin: 0 0 10px 0; font-size: 0.9rem; opacity: 0.8;">{{ car.year }} РіРѕРґ
                     </p>
                     <div class="car-specs">
-                        <span><i class="fa-solid fa-gauge"></i> {{ car.formatted_mileage }} км</span>
+                        <span><i class="fa-solid fa-gauge"></i> {{ car.formatted_mileage }} РєРј</span>
                         <span><i class="fa-solid fa-gas-pump"></i> {{ car.fuel_type }}</span>
                         <span><i class="fa-solid fa-gears"></i> {{ car.transmission }}</span>
                         <span><i class="fa-solid fa-palette"></i> {{ car.color }}</span>
@@ -94,11 +94,11 @@
                         {% if car.is_sold %}
                         <button class="btn btn-secondary" disabled
                             style="grid-column: 1 / -1; width: 100%; opacity: 0.8; cursor: not-allowed; background: #333; color: #888; border: 1px solid #444; height: 44px; font-weight: bold; letter-spacing: 1px; white-space: nowrap;">
-                            АВТОМОБИЛЬ ПРОДАН</button>
+                            РђР’РўРћРњРћР‘РР›Р¬ РџР РћР”РђРќ</button>
                         {% else %}
-                        <a href="{% url 'car_details' car.id %}" class="btn btn-outline">Подробнее</a>
-                        <a href="https://wa.me/{{ settings.watsapp }}?text=Интересуюсь {{ car.title }}"
-                            class="btn btn-primary">Заказать</a>
+                        <a href="{% url 'car_details' car.id %}" class="btn btn-outline">РџРѕРґСЂРѕР±РЅРµРµ</a>
+                        <a href="https://wa.me/{{ settings.watsapp }}?text=РРЅС‚РµСЂРµСЃСѓСЋСЃСЊ {{ car.title }}"
+                            class="btn btn-primary">Р—Р°РєР°Р·Р°С‚СЊ</a>
                         {% endif %}
                     </div>
                 </div>
@@ -109,9 +109,9 @@
                     style="font-size: 4rem; color: var(--primary-color); margin-bottom: 20px; opacity: 0.5;">
                     <i class="fa-solid fa-car-burst"></i>
                 </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Парк пуст</h3>
-                <p style="color: #666;">В данный момент нет доступных автомобилей. <br>Загляните к нам чуть позже!</p>
-                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-top: 20px;">Связаться с нами</a>
+                <h3 style="font-size: 1.5rem; margin-bottom: 10px;">РџР°СЂРє РїСѓСЃС‚</h3>
+                <p style="color: #666;">Р’ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… Р°РІС‚РѕРјРѕР±РёР»РµР№. <br>Р—Р°РіР»СЏРЅРёС‚Рµ Рє РЅР°Рј С‡СѓС‚СЊ РїРѕР·Р¶Рµ!</p>
+                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-top: 20px;">РЎРІСЏР·Р°С‚СЊСЃСЏ СЃ РЅР°РјРё</a>
             </div>
             {% endfor %}
 
