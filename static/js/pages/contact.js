@@ -9,10 +9,10 @@ const ContactPage = {
         if (!form) return;
 
         form.addEventListener('submit', (e) => {
-            const name = form.querySelector('input[type="text"]')?.value.trim();
-            const email = form.querySelector('input[type="email"]')?.value.trim();
-            const phone = form.querySelector('input[type="tel"]')?.value.trim();
-            const message = form.querySelector('textarea')?.value.trim();
+            const name = form.querySelector('input[name="name"]')?.value.trim();
+            const email = form.querySelector('input[name="email"]')?.value.trim();
+            const phone = form.querySelector('input[name="phone"]')?.value.trim();
+            const message = form.querySelector('textarea[name="message"]')?.value.trim();
 
             if (!name || !email || !phone || !message) {
                 e.preventDefault();
