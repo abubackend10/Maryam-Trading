@@ -18,8 +18,8 @@
 <section class="contact-section">
     <div class="container">
         
-        {% if messages %}
-            <div class="messages-container">
+        <div class="messages-container">
+            {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
                         <i class="fa-solid {% if message.tags == 'success' %}fa-check-circle{% else %}fa-circle-exclamation{% endif %}" style="margin-right: 12px; font-size: 1.2rem;"></i>
@@ -27,8 +27,8 @@
                         <button type="button" class="alert-close-btn" aria-label="Закрыть"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                 {% endfor %}
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
 
         <div class="contact-grid">
             <div class="contact-info glass-card">
