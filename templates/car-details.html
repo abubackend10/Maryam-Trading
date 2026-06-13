@@ -147,6 +147,13 @@
                     </div>
                 </div>
 
+                <div class="car-description-section" style="margin: 40px 0; padding: 30px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+                    <h2 style="margin-bottom: 20px; font-size: 1.8rem; color: var(--text-color);">Описание автомобиля</h2>
+                    <p style="font-size: 1.15rem; line-height: 1.8; color: #ccc; max-width: 900px; margin: 0 auto; font-weight: 400;">
+                        {{ car.description|linebreaksbr }}
+                    </p>
+                </div>
+
                 <div class="car-specs-full">
                     <h2 style="margin-bottom: 20px;">Все характеристики</h2>
                     <div class="specs-grid">

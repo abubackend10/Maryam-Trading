@@ -1,6 +1,9 @@
 from .models import Settings, Statistic
 def get_site_settings(request):
-    settings_obj = Settings.objects.first()
+    try:
+        settings_obj = Settings.objects.first()
+    except Exception:
+        settings_obj = None
 
     if not settings_obj:
         settings_obj = Settings(
@@ -10,7 +13,8 @@ def get_site_settings(request):
             description="Надёжно, быстро, выгодно",
             image=None,
             watsapp="", telegram="", instagram="",
-            address="", phone="", email=""
+            address="", phone="", email="",
+            working_hours="Пн-Пт: 9:00 - 18:00\nСб: 10:00 - 15:00"
         )
     
     return {

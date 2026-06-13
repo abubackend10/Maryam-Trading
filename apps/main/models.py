@@ -20,6 +20,8 @@ class Settings(models.Model):
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=100)
+    working_hours = models.TextField(verbose_name="Часы работы", default="Пн-Пт: 9:00 - 18:00\r\nСб: 10:00 - 15:00", max_length=200)
+
     def __str__(self):
         return self.title
     class Meta:
