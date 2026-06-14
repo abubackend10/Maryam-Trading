@@ -20,7 +20,7 @@ class Settings(models.Model):
     logo = models.ImageField(upload_to="logos/", blank=True, null=True)
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=150)
-    description = models.TextField(max_length=200)
+    description = models.TextField(max_length=500)
     image = models.ImageField(upload_to="hero_image/")
     watsapp = models.CharField(max_length=20)
     telegram = models.CharField(max_length=20)
@@ -31,7 +31,7 @@ class Settings(models.Model):
     working_hours = models.TextField(
         verbose_name="Часы работы",
         default="Пн-Пт: 9:00 - 18:00\r\nСб: 10:00 - 15:00",
-        max_length=200,
+        max_length=500,
     )
 
     def __str__(self):

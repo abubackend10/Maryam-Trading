@@ -2,15 +2,25 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 from pathlib import Path
+
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 SECRET_KEY = os.getenv('SECRET_KEY')
+
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = ['*']
-if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
-    hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
-    ALLOWED_HOSTS.append(hostname)
-    CSRF_TRUSTED_ORIGINS = [f'https://{hostname}']
+
+ALLOWED_HOSTS = ["maryam-trading.onrender.com"]
+
+if os.getenv("RENDER_EXTERNAL_HOSTNAME"):
+    hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+    if hostname not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(hostname)
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://maryam-trading.onrender.com"
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -121,3 +131,6 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TURNSTILE_SITE_KEY = os.getenv("TURNSTILE_SITE_KEY")
+TURNSTILE_SECRET_KEY = os.getenv("TURNSTILE_SECRET_KEY")

@@ -91,6 +91,13 @@
                         <textarea name="message" id="id_message" class="form-input" rows="5" required placeholder="Ваше сообщение..."></textarea>
                     </div>
                     
+                    <!-- Cloudflare Turnstile Widget -->
+                    {% if TURNSTILE_SITE_KEY %}
+                    <div class="form-group" style="display: flex; justify-content: center;">
+                        <div class="cf-turnstile" data-sitekey="{{ TURNSTILE_SITE_KEY }}" data-theme="auto"></div>
+                    </div>
+                    {% endif %}
+                    
                     <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Отправить</button>
                 </form>
             </div>
@@ -102,5 +109,6 @@
 
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/_contact.css' %}?v=2.0">{% endblock %}
 {% block extra_js %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="{% static 'js/pages/contact.js' %}?v=2.0"></script>
 {% endblock %}

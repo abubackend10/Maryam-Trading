@@ -35,6 +35,31 @@ class CarImageInline(admin.TabularInline):
     fields = ("image",)
 
 
+import cloudinary.uploader
+import os
+import logging
+
+logger = logging.getLogger(__name__)
+
+def delete_car_images_from_cloudinary(car_obj):
+    """
+    Удаляет главное изображение автомобиля и все дополнительные фото из Cloudinary.
+    """
+    try:
+        for car_image in car_obj.images.all():
+            if car_image.image and car_image.image.name:
+                
+                public_id = os.path.splitext(car_image.image.name)[0]
+                cloudinary.uploader.destroy(public_id)
+                cloudinary.uploader.destroy(car_image.image.name)
+                
+        if car_obj.image and car_obj.image.name:
+            public_id = os.path.splitext(car_obj.image.name)[0]
+            cloudinary.uploader.destroy(public_id)
+            cloudinary.uploader.destroy(car_obj.image.name)
+    except Exception as e:
+        logger.error(f"Ошибка при удалении изображений из Cloudinary для машины ID {car_obj.pk}: {e}")
+
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
     list_display = ("title", "brand", "year", "price", "status", "is_featured")
@@ -42,6 +67,15 @@ class CarAdmin(admin.ModelAdmin):
     search_fields = ("title",)
     list_editable = ("is_featured",)
     inlines = [CarImageInline]
+
+    def delete_model(self, request, obj):
+        delete_car_images_from_cloudinary(obj)
+        super().delete_model(request, obj)
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset:
+            delete_car_images_from_cloudinary(obj)
+        super().delete_queryset(request, queryset)
 
 
 @admin.register(Advantage)
