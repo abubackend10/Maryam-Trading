@@ -49,19 +49,3 @@
     --container-max: 1400px;
     --container-padding: clamp(1rem, 3vw, 1.5rem);
 }
-
-/* Light Theme Overrides */
-[data-theme="light"] {
-    --color-secondary: #f4f4f4;
-    --color-dark: #e0e0e0;
-    --color-darker: #ffffff;
-    --color-light: #1a1a1a;
-    --color-gray: #666666;
-    --color-gray-light: #cccccc;
-    
-    --gradient-dark: linear-gradient(135deg, #ffffff 0%, #f4f4f4 100%);
-    
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-}

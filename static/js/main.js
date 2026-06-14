@@ -10,7 +10,6 @@
             Navigation.init();
             Animations.init();
             Utils.init();
-            ThemeManager.init();
             this.initPageSpecific();
         },
 
@@ -228,34 +227,6 @@
                 clearTimeout(timeout);
                 timeout = setTimeout(() => func.apply(this, args), wait);
             };
-        }
-    };
-
-    const ThemeManager = {
-        init() {
-            this.toggleBtn = document.getElementById('themeToggle');
-            this.icon = this.toggleBtn?.querySelector('i');
-            if (!this.toggleBtn) return;
-            
-            this.updateIcon();
-
-            this.toggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                this.updateIcon();
-            });
-        },
-        updateIcon() {
-            if (!this.icon) return;
-            const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-            if (theme === 'light') {
-                this.icon.className = 'fa-solid fa-sun';
-            } else {
-                this.icon.className = 'fa-solid fa-moon';
-            }
         }
     };
 
