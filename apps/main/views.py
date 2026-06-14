@@ -46,9 +46,14 @@ from django.conf import settings as django_settings
 
 logger = logging.getLogger(__name__)
 
-@ratelimit(key="ip", rate="5/h", method="POST", block=True)
+@ratelimit(key="ip", rate="10/h", method="POST", block=False)
 def contact(request):
     if request.method == "POST":
+        # Check if rate limited
+        if getattr(request, "limited", False):
+            messages.error(request, "Вы отправляете слишком много сообщений. Пожалуйста, подождите немного.")
+            return render(request, "contact.html", {"TURNSTILE_SITE_KEY": django_settings.TURNSTILE_SITE_KEY})
+
         if request.POST.get("website"):
             messages.success(
                 request,

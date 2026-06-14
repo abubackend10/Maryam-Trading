@@ -12,15 +12,15 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ["maryam-trading.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://maryam-trading.onrender.com"]
 
 if os.getenv("RENDER_EXTERNAL_HOSTNAME"):
     hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME")
     if hostname not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append(hostname)
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://maryam-trading.onrender.com"
-]
+    trusted_url = f"https://{hostname}"
+    if trusted_url not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(trusted_url)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
