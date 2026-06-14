@@ -8,6 +8,44 @@ const ContactPage = {
         const form = document.getElementById('contactForm');
         if (!form) return;
 
+        const phoneInput = form.querySelector('input[name="phone"]');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function (e) {
+                let val = this.value.replace(/\D/g, '');
+                
+                if (!val.startsWith('996')) {
+                    if (val.length === 0) {
+                        this.value = '+996 ';
+                        return;
+                    }
+                    val = '996' + val;
+                }
+                
+                let localVal = val.substring(3, 12); // Max 9 digits after 996
+                let formatted = '+996 ';
+                if (localVal.length > 0) {
+                    formatted += '(' + localVal.substring(0, 3);
+                }
+                if (localVal.length >= 4) {
+                    formatted += ') ' + localVal.substring(3, 6);
+                }
+                if (localVal.length >= 7) {
+                    formatted += '-' + localVal.substring(6, 9);
+                }
+                this.value = formatted;
+            });
+            phoneInput.addEventListener('focus', function() {
+                if (this.value === '' || this.value.trim() === '+996') {
+                    this.value = '+996 ';
+                }
+            });
+            phoneInput.addEventListener('keydown', function(e) {
+                if ((e.key === 'Backspace' || e.key === 'Delete') && this.value.length <= 5) {
+                    e.preventDefault();
+                }
+            });
+        }
+
         form.addEventListener('submit', (e) => {
             const name = form.querySelector('input[name="name"]')?.value.trim();
             const email = form.querySelector('input[name="email"]')?.value.trim();
