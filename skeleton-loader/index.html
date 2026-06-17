@@ -4,14 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skeleton Loader — Demo</title>
-  <meta name="description" content="Демо Skeleton Loader: плавная анимация-блик вместо spinner'а" />
-  <link rel="stylesheet" href="skeleton.css" />
-
-  <!-- ── Страница-обёртка ─────────────────────────────────── -->
   <style>
+    /* ── Google Font ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ── Токены ── */
+    :root {
+      --sk-shimmer-1:   #e2e5ea;
+      --sk-shimmer-2:   #f2f4f7;
+      --sk-shimmer-3:   #e2e5ea;
+      --sk-duration:    1.6s;
+      --sk-radius-sm:   6px;
+      --sk-radius-full: 999px;
+      --card-width:     290px;
+    }
+
+    /* ── Сброс ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+      background: linear-gradient(135deg, #eef2ff 0%, #faf5ff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -21,155 +34,295 @@
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       color: #1a1a2e;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center;
     }
-
     .subtitle {
       font-size: 14px;
       color: #6b7280;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
       text-align: center;
     }
 
-    /* Таймер-индикатор */
+    /* Прогресс-полоса */
     .timer-bar-wrap {
-      width: 300px;
-      height: 4px;
+      width: 280px; height: 4px;
       background: #e5e7eb;
       border-radius: 999px;
       margin-bottom: 32px;
       overflow: hidden;
     }
-
     .timer-bar {
-      height: 100%;
-      width: 100%;
+      height: 100%; width: 100%;
       background: linear-gradient(90deg, #667eea, #764ba2);
-      border-radius: 999px;
       transform-origin: left;
       animation: timerShrink 3s linear forwards;
     }
-
     @keyframes timerShrink {
       from { transform: scaleX(1); }
       to   { transform: scaleX(0); }
+    }
+
+    /* Сетка */
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      justify-content: center;
+    }
+
+    /* ══ КАРТОЧКА ══ */
+    .product-card {
+      width: var(--card-width);
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07), 0 1px 4px rgba(0,0,0,.04);
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+      font-family: inherit;
+    }
+    .product-card:not(.is-loading):hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.12);
+    }
+    .product-card.is-loading { pointer-events: none; }
+
+    /* Зона картинки */
+    .card__image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #f3f4f6;
+    }
+    .card__image {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .5s;
+    }
+    .product-card:not(.is-loading):hover .card__image { transform: scale(1.05); }
+
+    .card__badge {
+      position: absolute; top: 12px; left: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px; font-weight: 700; letter-spacing: .5px;
+      text-transform: uppercase;
+      background: #1a1a2e; color: #fff;
+      z-index: 2;
+    }
+
+    /* Тело */
+    .card__body { padding: 16px 18px 20px; }
+
+    .card__category {
+      font-size: 11px; font-weight: 600; letter-spacing: .8px;
+      text-transform: uppercase; color: #9b59b6; margin-bottom: 5px;
+    }
+    .card__title {
+      font-size: 15px; font-weight: 700; color: #1a1a2e;
+      margin-bottom: 7px; line-height: 1.4;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card__desc {
+      font-size: 13px; color: #6b7280; line-height: 1.6;
+      margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    .card__rating { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+    .card__stars  { display: flex; gap: 2px; }
+    .card__stars svg { width: 13px; height: 13px; }
+    .card__rating-count { font-size: 12px; color: #9ca3af; }
+
+    .card__footer { display: flex; align-items: center; justify-content: space-between; }
+    .card__price  { display: flex; flex-direction: column; }
+    .card__price-current { font-size: 20px; font-weight: 700; color: #1a1a2e; line-height: 1; }
+    .card__price-old     { font-size: 12px; color: #9ca3af; text-decoration: line-through; margin-top: 2px; }
+
+    .card__btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px;
+      border: none; border-radius: 999px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff; font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+    .card__btn:hover { opacity: .88; transform: scale(1.03); }
+
+    /* ══ СКЕЛЕТОН-АНИМАЦИЯ ══ */
+    @keyframes sk-shimmer {
+      0%   { background-position: -500px 0; }
+      100% { background-position:  500px 0; }
+    }
+
+    .skeleton-block {
+      display: block;
+      background: linear-gradient(
+        90deg,
+        var(--sk-shimmer-1) 25%,
+        var(--sk-shimmer-2) 50%,
+        var(--sk-shimmer-3) 75%
+      );
+      background-size: 500px 100%;
+      animation: sk-shimmer var(--sk-duration) ease-in-out infinite;
+      border-radius: 8px;
+      color: transparent;
+      pointer-events: none;
+    }
+
+    /* Скелетон-оверлей в зоне фото */
+    .card__image-wrap .sk-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      border-radius: 0;
+      display: none;        /* по умолчанию скрыт */
+    }
+    .is-loading .card__image-wrap .sk-overlay {
+      display: block;       /* показываем только при загрузке */
+    }
+
+    /* Скелетон-бейдж */
+    .card__image-wrap .sk-badge-ph {
+      position: absolute; top: 12px; left: 12px;
+      width: 52px; height: 22px;
+      border-radius: 999px;
+      z-index: 6;
+      display: none;
+    }
+    .is-loading .card__image-wrap .sk-badge-ph { display: block; }
+
+    /* Скелетон в теле карточки */
+    .sk-body { display: none; }
+    .is-loading .sk-body { display: block; }
+
+    /* Строки скелетона */
+    .sk-cat   { width: 55px;  height: 10px; margin-bottom: 9px;  border-radius: 999px; }
+    .sk-title { width: 80%;   height: 15px; margin-bottom: 9px; }
+    .sk-line  { height: 12px; margin-bottom: 7px; }
+    .sk-line.full  { width: 100%; }
+    .sk-line.short { width: 62%; margin-bottom: 14px; }
+    .sk-stars-ph   { width: 84px; height: 13px; margin-bottom: 15px; }
+
+    .sk-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .sk-price  { width: 70px; height: 22px; margin-bottom: 4px; }
+    .sk-price-old { width: 46px; height: 10px; }
+    .sk-btn-ph    { width: 105px; height: 36px; border-radius: 999px; }
+
+    /* ══ РЕАЛЬНЫЙ КОНТЕНТ — скрыт пока идёт загрузка ══ */
+    .is-loading .card__real-content {
+      display: none !important;
+      animation: none !important;
+    }
+
+    /* Плавное появление после загрузки */
+    @keyframes sk-fadeIn {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .product-card:not(.is-loading) .card__real-content {
+      animation: sk-fadeIn 0.45s ease forwards;
     }
   </style>
 </head>
 <body>
 
   <h1>✦ Skeleton Loader</h1>
-  <p class="subtitle">Данные загружаются 3 секунды — наблюдай за переходом ↓</p>
+  <p class="subtitle">Скелетон виден 3 секунды, затем → реальный контент</p>
 
-  <!-- Таймер-полоска -->
   <div class="timer-bar-wrap" id="timerWrap">
-    <div class="timer-bar" id="timerBar"></div>
+    <div class="timer-bar"></div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════
-       СЕТКА КАРТОЧЕК (3 штуки для наглядности)
-       ══════════════════════════════════════════════════════ -->
-  <div class="cards-grid" id="cardsGrid">
+  <div class="cards-grid">
 
-    <!-- ─── Карточка 1 ─────────────────────────────────── -->
+    <!-- ══ КАРТОЧКА 1 ══ -->
     <article class="product-card is-loading" id="card-1">
 
-      <!-- ЗОНА ИЗОБРАЖЕНИЯ -->
       <div class="card__image-wrap">
-        <!-- Скелетон фото -->
-        <div class="card__skeleton skeleton-block sk-image"></div>
-        <!-- Скелетон бейджа -->
-        <div class="card__skeleton skeleton-block sk-badge"></div>
+        <!-- Скелетон-оверлей поверх фото -->
+        <div class="skeleton-block sk-overlay"></div>
+        <div class="skeleton-block sk-badge-ph"></div>
 
-        <!-- Реальное фото + бейдж -->
-        <img
-          class="card__image card__real-content"
+        <!-- Реальный контент -->
+        <img class="card__image card__real-content"
           src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80"
-          alt="Товар 1"
-        />
+          alt="Часы" />
         <span class="card__badge card__real-content">−20%</span>
       </div>
 
-      <!-- ТЕЛО КАРТОЧКИ -->
       <div class="card__body">
-
-        <!-- СКЕЛЕТОН-ВЕРСИЯ -->
-        <div class="card__skeleton">
-          <span class="skeleton-block sk-category"></span>
+        <!-- Скелетон-блоки тела -->
+        <div class="sk-body">
+          <span class="skeleton-block sk-cat"></span>
           <span class="skeleton-block sk-title"></span>
-          <span class="skeleton-block sk-line sk-line--full"></span>
-          <span class="skeleton-block sk-line sk-line--short" style="margin-bottom: 14px;"></span>
-          <span class="skeleton-block sk-stars" style="margin-bottom: 16px;"></span>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <span class="skeleton-block sk-line full"></span>
+          <span class="skeleton-block sk-line short"></span>
+          <span class="skeleton-block sk-stars-ph"></span>
+          <div class="sk-footer">
             <div>
               <span class="skeleton-block sk-price"></span>
               <span class="skeleton-block sk-price-old"></span>
             </div>
-            <span class="skeleton-block sk-btn"></span>
+            <span class="skeleton-block sk-btn-ph"></span>
           </div>
         </div>
 
-        <!-- РЕАЛЬНЫЙ КОНТЕНТ -->
+        <!-- Реальный контент -->
         <div class="card__real-content">
           <p class="card__category">Аксессуары</p>
           <h2 class="card__title">Премиум часы Vogue Pro</h2>
           <p class="card__desc">Элегантные наручные часы с сапфировым стеклом и нержавеющей сталью.</p>
           <div class="card__rating">
             <div class="card__stars">
-              <!-- 5 звёзд SVG -->
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#e5e7eb"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
             </div>
-            <span class="card__rating-count">4.0 (248 отзывов)</span>
+            <span class="card__rating-count">4.0 (248)</span>
           </div>
           <div class="card__footer">
             <div class="card__price">
               <span class="card__price-current">24 990 ₽</span>
               <span class="card__price-old">31 200 ₽</span>
             </div>
-            <button class="card__btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              В корзину
-            </button>
+            <button class="card__btn">В корзину</button>
           </div>
-        </div><!-- /real-content -->
+        </div>
+      </div>
+    </article>
 
-      </div><!-- /card__body -->
-    </article><!-- /card-1 -->
-
-
-    <!-- ─── Карточка 2 ─────────────────────────────────── -->
+    <!-- ══ КАРТОЧКА 2 ══ -->
     <article class="product-card is-loading" id="card-2">
       <div class="card__image-wrap">
-        <div class="card__skeleton skeleton-block sk-image"></div>
-        <div class="card__skeleton skeleton-block sk-badge"></div>
-        <img
-          class="card__image card__real-content"
+        <div class="skeleton-block sk-overlay"></div>
+        <div class="skeleton-block sk-badge-ph"></div>
+        <img class="card__image card__real-content"
           src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&q=80"
-          alt="Товар 2"
-        />
+          alt="Кроссовки" />
         <span class="card__badge card__real-content">NEW</span>
       </div>
       <div class="card__body">
-        <div class="card__skeleton">
-          <span class="skeleton-block sk-category"></span>
+        <div class="sk-body">
+          <span class="skeleton-block sk-cat"></span>
           <span class="skeleton-block sk-title" style="width:70%"></span>
-          <span class="skeleton-block sk-line sk-line--full"></span>
-          <span class="skeleton-block sk-line sk-line--short" style="margin-bottom: 14px;"></span>
-          <span class="skeleton-block sk-stars" style="margin-bottom: 16px;"></span>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <span class="skeleton-block sk-line full"></span>
+          <span class="skeleton-block sk-line short"></span>
+          <span class="skeleton-block sk-stars-ph"></span>
+          <div class="sk-footer">
             <div>
               <span class="skeleton-block sk-price"></span>
               <span class="skeleton-block sk-price-old"></span>
             </div>
-            <span class="skeleton-block sk-btn"></span>
+            <span class="skeleton-block sk-btn-ph"></span>
           </div>
         </div>
         <div class="card__real-content">
@@ -184,48 +337,42 @@
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
             </div>
-            <span class="card__rating-count">5.0 (512 отзывов)</span>
+            <span class="card__rating-count">5.0 (512)</span>
           </div>
           <div class="card__footer">
             <div class="card__price">
               <span class="card__price-current">8 490 ₽</span>
               <span class="card__price-old">10 000 ₽</span>
             </div>
-            <button class="card__btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              В корзину
-            </button>
+            <button class="card__btn">В корзину</button>
           </div>
         </div>
       </div>
-    </article><!-- /card-2 -->
+    </article>
 
-
-    <!-- ─── Карточка 3 ─────────────────────────────────── -->
+    <!-- ══ КАРТОЧКА 3 ══ -->
     <article class="product-card is-loading" id="card-3">
       <div class="card__image-wrap">
-        <div class="card__skeleton skeleton-block sk-image"></div>
-        <div class="card__skeleton skeleton-block sk-badge"></div>
-        <img
-          class="card__image card__real-content"
+        <div class="skeleton-block sk-overlay"></div>
+        <div class="skeleton-block sk-badge-ph"></div>
+        <img class="card__image card__real-content"
           src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80"
-          alt="Товар 3"
-        />
+          alt="Парфюм" />
         <span class="card__badge card__real-content">HIT</span>
       </div>
       <div class="card__body">
-        <div class="card__skeleton">
-          <span class="skeleton-block sk-category"></span>
-          <span class="skeleton-block sk-title" style="width:90%"></span>
-          <span class="skeleton-block sk-line sk-line--full"></span>
-          <span class="skeleton-block sk-line sk-line--short" style="margin-bottom: 14px;"></span>
-          <span class="skeleton-block sk-stars" style="margin-bottom: 16px;"></span>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+        <div class="sk-body">
+          <span class="skeleton-block sk-cat"></span>
+          <span class="skeleton-block sk-title" style="width:88%"></span>
+          <span class="skeleton-block sk-line full"></span>
+          <span class="skeleton-block sk-line short"></span>
+          <span class="skeleton-block sk-stars-ph"></span>
+          <div class="sk-footer">
             <div>
               <span class="skeleton-block sk-price"></span>
               <span class="skeleton-block sk-price-old"></span>
             </div>
-            <span class="skeleton-block sk-btn"></span>
+            <span class="skeleton-block sk-btn-ph"></span>
           </div>
         </div>
         <div class="card__real-content">
@@ -240,66 +387,47 @@
               <svg viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
               <svg viewBox="0 0 16 16" fill="#e5e7eb"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
             </div>
-            <span class="card__rating-count">4.0 (87 отзывов)</span>
+            <span class="card__rating-count">4.0 (87)</span>
           </div>
           <div class="card__footer">
             <div class="card__price">
               <span class="card__price-current">5 290 ₽</span>
               <span class="card__price-old">6 800 ₽</span>
             </div>
-            <button class="card__btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              В корзину
-            </button>
+            <button class="card__btn">В корзину</button>
           </div>
         </div>
       </div>
-    </article><!-- /card-3 -->
+    </article>
 
   </div><!-- /cards-grid -->
 
-  <!-- ══════════════════════════════════════════════════════
-       JavaScript — имитация загрузки данных
-       ══════════════════════════════════════════════════════ -->
   <script>
     /**
-     * simulateLoad(cardId, delayMs)
-     * ─────────────────────────────
-     * Имитирует запрос к API:
-     *   1. Карточка стартует с классом .is-loading (скелетон виден).
-     *   2. Через delayMs миллисекунд класс убирается —
-     *      реальный контент плавно появляется.
-     *
-     * @param {string} cardId   — id элемента карточки
-     * @param {number} delayMs  — задержка в миллисекундах
+     * simulateLoad — имитирует асинхронный fetch:
+     * убирает .is-loading через delayMs мс → CSS делает всё остальное
      */
-    function simulateLoad(cardId, delayMs = 3000) {
+    function simulateLoad(cardId, delayMs) {
       const card = document.getElementById(cardId);
       if (!card) return;
-
-      // Убедимся, что скелетон виден (класс уже стоит в HTML)
       card.classList.add('is-loading');
-
-      setTimeout(() => {
-        // Убираем класс → CSS сам скрывает скелетон и показывает контент
+      setTimeout(function() {
         card.classList.remove('is-loading');
       }, delayMs);
     }
 
-    // ── Запускаем загрузку для каждой карточки ──────────────
-    // Все три карточки «грузятся» одновременно — 3 секунды
+    // Запускаем для всех трёх карточек
     simulateLoad('card-1', 3000);
     simulateLoad('card-2', 3000);
     simulateLoad('card-3', 3000);
 
-    // ── Убираем таймер-полоску после завершения ──────────────
-    setTimeout(() => {
-      const wrap = document.getElementById('timerWrap');
-      if (wrap) {
-        wrap.style.transition = 'opacity 0.4s ease';
-        wrap.style.opacity    = '0';
-        setTimeout(() => wrap.remove(), 400);
-      }
+    // Убираем таймер-полоску
+    setTimeout(function() {
+      var w = document.getElementById('timerWrap');
+      if (!w) return;
+      w.style.transition = 'opacity .4s';
+      w.style.opacity = '0';
+      setTimeout(function() { w.remove(); }, 400);
     }, 3000);
   </script>
 

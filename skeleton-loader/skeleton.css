@@ -99,6 +99,18 @@
   background: #f3f4f6;
 }
 
+/* Скелетон-оверлей поверх фото (position:absolute, всегда в DOM) */
+.card__image-wrap .card__skeleton {
+  position: absolute;
+  inset: 0;                   /* top/right/bottom/left = 0 */
+  z-index: 3;
+  display: none;              /* по умолчанию — спрятан */
+}
+
+.is-loading .card__image-wrap .card__skeleton {
+  display: block;             /* показываем только при загрузке */
+}
+
 .card__image {
   width: 100%;
   height: 100%;
@@ -242,6 +254,7 @@
   width: 100%;
   height: 100%;
   border-radius: 0;           /* внутри враппера — без радиуса */
+  position: static;           /* сброс, позиция задаётся родителем */
 }
 
 /* Бейдж-скелетон */
@@ -320,26 +333,20 @@
   pointer-events: none;
 }
 
-/* Скрываем реальный контент */
+/* Скрываем реальный контент пока грузится */
 .is-loading .card__real-content {
+  display: none !important;
+  animation: none;
+}
+
+/* Скрываем скелетон по умолчанию (НЕ в image-wrap — там свои правила выше) */
+.card__body .card__skeleton {
   display: none;
 }
 
-/* Показываем скелетон */
-.is-loading .card__skeleton {
-  display: block;    /* или flex — зависит от контейнера */
-}
-
-/* Когда НЕ загружается — прячем скелетон */
-.card__skeleton {
-  display: none;
-}
-
-/* Внутри image-wrap скелетон всегда block */
-.is-loading .card__image-wrap .card__skeleton {
+/* Показываем скелетон в body карточки при загрузке */
+.is-loading .card__body .card__skeleton {
   display: block;
-  width: 100%;
-  height: 100%;
 }
 
 /* ── Плавное появление реального контента ────────────────── */
@@ -348,8 +355,9 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.card__real-content {
-  animation: sk-fadeIn 0.4s ease forwards;
+/* Анимация появления — ТОЛЬКО после снятия is-loading */
+.product-card:not(.is-loading) .card__real-content {
+  animation: sk-fadeIn 0.45s ease forwards;
 }
 
 /* ══════════════════════════════════════════════════════════
